@@ -52,9 +52,13 @@ http://www.arl.wustl.edu/classbench/
 
 ##Usage   
 コマンド  
+
 ＄git clone git@github.com:tanakalab/ClassBench.git  
+
+
 を実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
 compile.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
+
 $ git clone git@github.com:tanakalab/ClassBench.git  
 $ cd ClassBench    
 $ sh compile.sh   
