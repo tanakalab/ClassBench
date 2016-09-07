@@ -51,33 +51,33 @@ http://www.arl.wustl.edu/classbench/
 
 
 ##Usage   
-コマンド＄git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.　　
+コマンド＄git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
 compile.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
 $ git clone git@github.com:tanakalab/ClassBench.git  
 $ cd ClassBench    
 $ sh compile.sh   
  
- 1. classbench.shの引数としてルール数,フィールド数(1 <= n <= 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．  
+ 1. classbench.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
 $ sh classbench.sh 100 6 acl1_seed 100 Rule Header
 
- 2. ZOMFieldList.shの引数としてルール数,フィールド数(1 <= n <= 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．   
+ 2. ZOMFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．   
  例)  
 $ sh ZOMFieldList.sh 100 5 acl1_seed 100 Rule Header
 
- 3. ZOMList.shの引数としてルール数,フィールド数(1 <= n <= 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．  
+ 3. ZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
 $ sh ZOMList.sh 100 5 acl1_seed 100 Rule Header
 
- 4. EvalZOMFieldList.shの引数としてルール数,フィールド数(1 <= n <= 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
+ 4. EvalZOMFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
  例)  
 $ sh EvalZOMFieldList.sh 100 3 acl1_seed 100 Rule Header 0.5
 
- 5. EvalZOMList.shの引数としてルール数,フィールド数(1 <= n <= 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
+ 5. EvalZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
  例)  
 $ sh EvalZOMList.sh 100 3 acl1_seed 100 Rule Header 0.5
 
- 6. AdjacencyList.shの引数としてルール数,フィールド数(1 <= n <= 6),パラメーターファイル、パケット数,ルールファイル名,評価型(Accept)の割合を入力することで生成される．  
+ 6. AdjacencyList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,評価型(Accept)の割合を入力することで生成される．  
  例）  
 $ sh AdjacencyList.sh 100 6 acl1_seed 100 Rule 0.5
  
