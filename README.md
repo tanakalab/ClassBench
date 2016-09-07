@@ -4,7 +4,7 @@ ClassBench
 
 http://www.arl.wustl.edu/classbench/ 
 
-で生成したルールを0, 1, *のルールへ変換するプログラム群
+で生成したルールを各提案手法の形式のルールへ変換するプログラム群
 
 ##目的
 * trace generater で生成したパケットを64ビットの２進表記で表示させる.　     
