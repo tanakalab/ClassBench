@@ -6,7 +6,7 @@ http://www.arl.wustl.edu/classbench/
 
 で生成したルールを各提案手法の形式のルールリストとヘッダリストへ変換するプログラム群　　
 
-* ClassBenchで生成されたルールセットとパケットを生成する．     
+* ClassBenchで生成されたルールセットとパケットを出力する．     
 例）ルール   : @131.10.42.40/32	 95.184.130.35/32	 0 : 65535	 1724 : 1724	 0x06/0xFF	 0x1000/0x1000       
     パケット : 2198481430 	1709293566	 65535	 1712	 6 	4294967295      
 　
@@ -46,13 +46,16 @@ http://www.arl.wustl.edu/classbench/
 ##Usage   
 コマンド＄git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.　　
 compile.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
-
-* 
-
 $ git clone git@github.com:tanakalab/ClassBench.git  
 $ cd ClassBench    
-$ ./compile.sh   
-$ ./addlessRuleAndPacketGenerator.sh  (input parameter file) (number of filters) (smoothness(0~64)) (address scope(-1~1)) (application scope(-1~1)) (probability(0~1)) (output Rule_filename) (Pareto parameter a) (Pareto parameter b) (scale) (output Packet_filename)  
+$ sh compile.sh   
+ 
+ * classbench.shを実行し,ルール数,フィールド数,パラメーターファイル、パケット数,各ファイル名を入力することで生成される．  
+   $ sh classbench.sh
+ * ZOMFieldList.shを実行し,ルール数,フィールド数,パラメーターファイル、パケット数,各ファイル名
+ * 
+ * 
+ 
 
 ##example:   
-$./addlessRuleAndPacketGnerator.sh acl1_seed 10000 2 0.5 -0.1 Rule 1 0.1 10 Packet  
+$./addlessRuleAndPacketGnerator.sh acl1_seed 10000 2 0.5 -0.1 Rule 1 0.1 10 Packet
