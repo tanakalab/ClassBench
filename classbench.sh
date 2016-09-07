@@ -1,45 +1,45 @@
-echo "input rule number"
-read RULENUM
-echo "input field number (1 <= n <= 6)"
-read FIELD
-echo "input a file in parameter_files"
-read PARAMETER
+#echo "input rule number"
+# read RULENUM
+# echo "input field number (1 <= n <= 6)"
+# read FIELD
+# echo "input a file in parameter_files"
+# read PARAMETER
 cd db_generator
-./db_generator -bc ../parameter_files/$PARAMETER $RULENUM 2 0.5 -0.1 MyFilters
-echo "input header number"
-read HEADERNUM
+./db_generator -bc ../parameter_files/$3 $1 2 0.5 -0.1 MyFilters
+# echo "input header number"
+# read HEADERNUM
 cd ../trace_generator
-./trace_generator 1 0.1 `expr $HEADERNUM / $RULENUM` ../db_generator/MyFilters
+./trace_generator 1 0.1 `expr $4 / $1` ../db_generator/MyFilters
 cd ..
-echo "input rule name"
-read RULENAME 
-case "$FIELD" in 
-    "1") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1}' > $RULENAME
+#echo "input rule name"
+#read RULENAME 
+case "$2" in 
+    "1") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1}' > $5
 	 ;;
-    "2") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2}' > $RULENAME
+    "2") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2}' > $5
 	 ;;
-    "3") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2,$3}' > $RULENAME
+    "3") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2,$3}' > $5
          ;;
-    "4") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2,$3,$4}' > $RULENAME
+    "4") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2,$3,$4}' > $5
 	 ;;
-    "5") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2,$3,$4,$5}' > $RULENAME
+    "5") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2,$3,$4,$5}' > $5
 	 ;;
-    "6") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2,$3,$4,$5,$6}' > $RULENAME
+    "6") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1,$2,$3,$4,$5,$6}' > $5
 	 ;;
 esac
-echo "input header name"
-read HEADERNAME
-case "$FIELD" in 
-    "1") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1}' > $HEADERNAME
+# echo "input header name"
+# read HEADERNAME
+case "$2" in 
+    "1") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1}' > $6
 	 ;;
-    "2") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2}' > $HEADERNAME
+    "2") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2}' > $6
 	 ;;
-    "3") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2,$3}' > $HEADERNAME
+    "3") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2,$3}' > $6
          ;;
-    "4") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2,$3,$4}' > $HEADERNAME
+    "4") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2,$3,$4}' > $6
 	 ;;
-    "5") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2,$3,$4,$5}' > $HEADERNAME
+    "5") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2,$3,$4,$5}' > $6
 	 ;;
-    "6") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2,$3,$4,$5,$6}' > $HEADERNAME
+    "6") cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1,$2,$3,$4,$5,$6}' > $6
 	 ;;
 esac

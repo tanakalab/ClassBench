@@ -379,11 +379,6 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    break;
 	    
 	case 6://送信元アドレス　送信先アドレス　送信元ポート　送信先ポート　プロトコル　フラグ　
-
-	    for(int i=29;i<=29;i++){
-	    System.out.println( isMatchSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],hField[2]) + " " + isMatchDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],hField[3]) + " "  + isMatchPROT(RelatedRule.rField[i][9],hField[4]) + " "  + isMatchFLAG(RelatedRule.rField[i][10],hField[5]) + " "  + isMatchSA(RelatedRule.rField[i][1],hField[0]) + " " + isMatchDA(RelatedRule.rField[i][2],hField[1]));
-	    };
-
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
 		for(int i=0; i < RelatedRule.rSize; i++){		
