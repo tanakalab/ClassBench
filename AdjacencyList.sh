@@ -46,7 +46,10 @@ esac
 
 # echo "input probability of evaluation type (0 <= p <=1)"
 # read PROBABILITY
+javac AddEtype.java
 java AddEtype x a $6
+
+javac ClassBenchToAdjacencyList.java
 java ClassBenchToAdjacencyList a y $2  $5
 
 rm x

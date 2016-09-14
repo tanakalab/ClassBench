@@ -41,9 +41,11 @@ case "$2" in
 esac
 # echo "input ZeroOneMask file name"
 # read ZOMNAME
+javac ClassBenchToZOM.java
 java ClassBenchToZOM x $5
 # echo "input ZeroOneHeader file name"
 # read HEADERNAME
+javac ZOHeaderFromClassbench.java
 java ZOHeaderFromClassbench y $6
 
 rm x

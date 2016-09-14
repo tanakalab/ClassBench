@@ -45,14 +45,18 @@ esac
 
 # echo "input ZeroOneMask file name"
 # read ZOMNAME
+javac ClassBenchToZOM.java
 java ClassBenchToZOM x a
 # echo "input ZeroOneHeader file name"
 # read HEADERNAME
+javac ZOHeaderFromClassbench.java
 java ZOHeaderFromClassbench y $6
 
+javac AddEvaluationZOM.java
 java AddEvaluationZOM a $6 e
 # echo "input probability of evaluation type (0 <= p <= 1)"
 # read PROBABILITY
+javac AddEtype.java
 java AddEtype e $5 $7
 
 rm x
