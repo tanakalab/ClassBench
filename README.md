@@ -53,7 +53,7 @@ http://www.arl.wustl.edu/classbench/
 ##Usage   
 
 git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
-生成されたディレクトリに移動しcompile.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
+作成されたディレクトリに移動しcompile.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
 そして後は自分の生成したいルールセットに合わせて下記の1~6のスクリプトを実行する．  
 
 パラメーターファイル  
