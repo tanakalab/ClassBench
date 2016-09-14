@@ -96,14 +96,14 @@ public class AddEvaluationZOM {//0,1,*のルールに評価パケット数を付
 	    header.add(sb.toString());
 	}
 	
-	    for(int j=0; j < hSize; j++){
-		for(int i=0; i < rSize; i++){
-		    if( isMatch(rule.get(i),header.get(j),rule.get(0).length()) ){    
-			eval[i]++;
-			break;
-		    }
+	for(int j=0; j < hSize; j++){
+	    for(int i=0; i < rSize; i++){
+		if( isMatch(rule.get(i),header.get(j),rule.get(0).length()) ){    
+		    eval[i]++;
+		    break;
 		}
 	    }
+	}
 	
 	return eval;
     }
