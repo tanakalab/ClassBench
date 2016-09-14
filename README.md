@@ -51,17 +51,19 @@ http://www.arl.wustl.edu/classbench/
 
 
 ##Usage   
-コマンド  
 
-＄git clone git@github.com:tanakalab/ClassBench.git  
-
-
-を実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
+git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
 compile.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
+そして後は自分の生成したいルールセットに合わせて下記の1~6のスクリプトを実行する．  
+パラメーターファイル  
+(acl1_seed　acl3_seed　acl5_seed　fw2_seed　fw4_seed　ipc1_seed　acl2_seed　acl4_seed　fw1_seed　fw3_seed　fw5_seed　ipc2_seed)  
+
+コマンド  
 
 $ git clone git@github.com:tanakalab/ClassBench.git  
 $ cd ClassBench    
 $ sh compile.sh   
+
  
  1. classbench.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
