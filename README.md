@@ -4,7 +4,8 @@ ClassBench
 
 http://www.arl.wustl.edu/classbench/ 
 
-で生成したルールを各提案手法の形式のルールリストとヘッダリストへ変換するプログラム群　　
+で生成したルールを各提案手法の形式のルールリストとヘッダリストへ変換するプログラム群  
+ClassBenchから下記の1~7の形式の中の一つを生成することができる．    
 
 1. ClassBenchで生成されたルールセットとパケットを出力する．     
 例）  
@@ -62,7 +63,8 @@ http://www.arl.wustl.edu/classbench/
 
 git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
 作成されたディレクトリに移動しcompile.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
-そして後は自分の生成したいルールセットに合わせて下記の1~6のスクリプトを実行する．  
+そして後は自分の生成したいルールセットに合わせて下記の1~7のどれかのスクリプトを実行する．  
+下記の1~7は上記で示した1~7に対応している．
 
 パラメーターファイル  
 (acl1_seed　acl3_seed　acl5_seed　fw2_seed　fw4_seed　ipc1_seed　acl2_seed　acl4_seed　fw1_seed　fw3_seed　fw5_seed　ipc2_seed)  
