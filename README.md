@@ -66,8 +66,10 @@ git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレ
 そして後は自分の生成したいルールセットに合わせて下記の1~7のどれかのスクリプトを実行する．  
 下記の1~7は上記で示した1~7に対応している．
 
-パラメーターファイル  
+※パラメーターファイル  
 (acl1_seed　acl3_seed　acl5_seed　fw2_seed　fw4_seed　ipc1_seed　acl2_seed　acl4_seed　fw1_seed　fw3_seed　fw5_seed　ipc2_seed)  
+※パケット数はルール数の何倍のパケットが欲しいのかを指定する．  
+
 
 コマンド  
 
@@ -76,37 +78,37 @@ $ cd ClassBench
 $ sh compile.sh   
   
   
- 1. classbench.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．  
+ 1. classbench.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
-$ sh classbench.sh 100 6 acl1_seed 100 Rule Header
+$ sh classbench.sh 100 6 acl1_seed 1 Rule Header
   
   
- 2. ZOMRangeFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．  
+ 2. ZOMRangeFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
-$ sh ZOMRangeFieldList.sh 100 5 acl1_seed 100 Rule Header
+$ sh ZOMRangeFieldList.sh 100 5 acl1_seed 1 Rule Header
   
   
- 3. ZOMFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．   
+ 3. ZOMFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．   
  例)  
-$ sh ZOMFieldList.sh 100 5 acl1_seed 100 Rule Header
+$ sh ZOMFieldList.sh 100 5 acl1_seed 1 Rule Header
   
   
- 4. ZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名を入力し実行することで生成される．  
+ 4. ZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
-$ sh ZOMList.sh 100 5 acl1_seed 100 Rule Header
+$ sh ZOMList.sh 100 5 acl1_seed 1 Rule Header
   
   
- 5. EvalZOMFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
+ 5. EvalZOMFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
  例)  
-$ sh EvalZOMFieldList.sh 100 3 acl1_seed 100 Rule Header 0.5
+$ sh EvalZOMFieldList.sh 100 3 acl1_seed 1 Rule Header 0.5
   
   
- 6. EvalZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
+ 6. EvalZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
  例)  
-$ sh EvalZOMList.sh 100 3 acl1_seed 100 Rule Header 0.5
+$ sh EvalZOMList.sh 100 3 acl1_seed 1 Rule Header 0.5
   
   
- 7. AdjacencyList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数,ルールファイル名,評価型(Accept)の割合を入力することで生成される．  
+ 7. AdjacencyList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(1以上の整数),ルールファイル名,評価型(Accept)の割合を入力することで生成される．  
  例）  
-$ sh AdjacencyList.sh 100 6 acl1_seed 100 Rule 0.5
+$ sh AdjacencyList.sh 100 6 acl1_seed 1 Rule 0.5
  
