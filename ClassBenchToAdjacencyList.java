@@ -21,10 +21,20 @@ class RelatedRule //評価パケット数と従属関係を求めるのに共通
 	    String ZOM1 = (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[0]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[1]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[2]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[3]),8));
 
 	    StringBuilder sb1 = new StringBuilder(ZOM1);
-	    for(int j = plefix1; j < 32; j++)
-		sb1.setCharAt(j,'*');
 
-	    RelatedRule.rField[i][1] = sb1.toString();
+	    long str1,str2;
+	    
+	    for(int j = plefix1; j < 32; j++)
+		sb1.setCharAt(j,'0');
+	    
+	    str1 = ClassBenchToAdjacencyList.twoToten(sb1.toString());
+	    
+	    for(int j = plefix1; j < 32; j++)
+		sb1.setCharAt(j,'1');
+	   
+	    str2 = ClassBenchToAdjacencyList.twoToten(sb1.toString());
+			
+	    RelatedRule.rField[i][1] = str1 + "-" + str2;
 
 	    if( rField[i].length <= 2 )
 		continue;
@@ -34,10 +44,18 @@ class RelatedRule //評価パケット数と従属関係を求めるのに共通
 	    String ZOM2 = (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[0]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[1]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[2]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[3]),8));
 		
 	    StringBuilder sb2 = new StringBuilder(ZOM2);
-	    for(int j = plefix2; j < 32; j++)
-		sb2.setCharAt(j,'*');
 	    
-	    RelatedRule.rField[i][2] = sb2.toString();
+	    for(int j = plefix2; j < 32; j++)
+		sb2.setCharAt(j,'0');
+
+	    str1 = ClassBenchToAdjacencyList.twoToten(sb2.toString());
+
+	    for(int j = plefix2; j < 32; j++)
+		sb2.setCharAt(j,'1');
+	    
+	    str2 = ClassBenchToAdjacencyList.twoToten(sb2.toString());
+			
+	    RelatedRule.rField[i][2] = str1 + "-" + str2;
 	}
 	
 	
@@ -81,28 +99,28 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    int[] eval = makeEvaluation(header);
 	    List<String>[] dep = makeDependence();
 	    
-
 	    for(int i = 0; i < dep.length; i++){   //結果の表示
-		//	System.out.print(eval[i] + "\t");
-		bw.write(String.valueOf(eval[i]));
+	    	//	System.out.print(eval[i] + "\t");
+	    	bw.write("R" + (i+1) + " : ");
+	    	bw.write(String.valueOf(eval[i]));
 	    	if(0 != dep[i].size()){
-		    bw.write(" ");
+	    	    bw.write(" ");
 	    	    for(int j = dep[i].size()-1;0 <= j; j--){
-			//	System.out.print(dep[i].get(j));
-			bw.write(dep[i].get(j));
-			if(j == 0){
-			    //	System.out.println("");
-			    bw.newLine();
-			    break;
-			}
-			//   System.out.print(",");
-			bw.write(",");
-		    }
+	    		//	System.out.print(dep[i].get(j));
+	    		bw.write(dep[i].get(j));
+	    		if(j == 0){
+	    		    //	System.out.println("");
+	    		    bw.newLine();
+	    		    break;
+	    		}
+	    		//   System.out.print(",");
+	    		bw.write(",");
+	    	    }
 	    	}
 	    	else{
-		    // System.out.println("");
-		    bw.newLine();
-		}
+	    	    // System.out.println("");
+	    	    bw.newLine();
+	    	}
 	    }
 
 	    
@@ -220,7 +238,7 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
 		for(int j=i-1; 0<=j; j--){
 		
-		    if(RelatedRule.rField[i][ruleFieldSize-1].equals(RelatedRule.rField[j][ruleFieldSize-1]))
+		    if(RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
 			continue;
 
 		    if(includeSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],RelatedRule.rField[j][3],RelatedRule.rField[j][5]) && includeDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],RelatedRule.rField[j][6],RelatedRule.rField[j][8]) && includePROT(RelatedRule.rField[i][9],RelatedRule.rField[j][9]) && includeFLAG(RelatedRule.rField[i][10],RelatedRule.rField[j][10]) && includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) && includeDA(RelatedRule.rField[i][2],RelatedRule.rField[j][2])){
@@ -239,25 +257,29 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
     }
     
     public static boolean includeSA(String rule1,String rule2){
+
+	String[] str1 = rule1.split("-");
+	String[] str2 = rule2.split("-");
 	
-	for(int i=0; i<32; i++){
-	    if(rule1.charAt(i)=='*' || rule2.charAt(i)=='*')
-		break;
-	    else if(rule1.charAt(i)!=rule2.charAt(i))
-		return false;
-	}
-	return true;	
+	if( Long.parseLong(str1[1]) < Long.parseLong(str2[0]) )
+	    return false;
+	else if( Long.parseLong(str2[1]) <  Long.parseLong(str1[0]) )
+	    return false;
+	return true;
+	
     
     }
     public static boolean includeDA(String rule1,String rule2){
+
+	String[] str1 = rule1.split("-");
+	String[] str2 = rule2.split("-");
 	
-	for(int i=0; i<32; i++){
-	    if(rule1.charAt(i)=='*' || rule2.charAt(i)=='*')
-		break;	    
-	    if(rule1.charAt(i)!=rule2.charAt(i))
-		return false;
-	}
-	return true;	
+	if( Long.parseLong(str1[1]) <  Long.parseLong(str2[0]) )
+	    return false;
+	else if( Long.parseLong(str2[1]) <  Long.parseLong(str1[0]) )
+	    return false;
+	return true;
+	
 	
     }
     public static boolean includeSP(String sr1_1,String sr1_2,String sr2_1,String sr2_2){
@@ -381,7 +403,8 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	case 6://送信元アドレス　送信先アドレス　送信元ポート　送信先ポート　プロトコル　フラグ　
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
-		for(int i=0; i < RelatedRule.rSize; i++){		
+		for(int i=0; i < RelatedRule.rSize; i++){
+			
 		    if(isMatchSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],hField[2]) && isMatchDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],hField[3]) && isMatchPROT(RelatedRule.rField[i][9],hField[4]) && isMatchFLAG(RelatedRule.rField[i][10],hField[5]) && isMatchSA(RelatedRule.rField[i][1],hField[0]) && isMatchDA(RelatedRule.rField[i][2],hField[1])){    
 			eval[i]++;
 			break;
@@ -396,28 +419,24 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
     
     public static boolean isMatchSA(String rule,String header){
 
-	header = tenTotwo(Long.parseLong(header),32);
-	    
-	for(int i=0; i<32; i++){
-	    if(rule.charAt(i)=='*')
-		break;
-	    else if(rule.charAt(i)!=header.charAt(i))
-		return false;
-	}
-	return true;
+	String[] str = rule.split("-");
+	//System.out.println(low + " : " + high +" "+ header);
+	if(Long.parseLong(str[0]) <= Long.parseLong(header) && Long.parseLong(header) <= Long.parseLong(str[1]) )
+	    return true;
+	else
+	    return false;
+
     }
 	
     public static boolean isMatchDA(String rule,String header){
+	
+	String[] str = rule.split("-");
+	//System.out.println(low + " : " + high +" "+ header);
+	if(Long.parseLong(str[0]) <= Long.parseLong(header) && Long.parseLong(header) <= Long.parseLong(str[1]) )
+	    return true;
+	else
+	    return false;
 
-	header = tenTotwo(Long.parseLong(header),32);
-	    
-	for(int i=0; i<32; i++){
-	    if(rule.charAt(i)=='*')
-		break;
-	    else if(rule.charAt(i)!=header.charAt(i))
-		return false;
-	}
-	return true;
     }
 	
     public static boolean isMatchSP(String low,String high,String header){
@@ -496,9 +515,18 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	return returnBits;
     }
 
+  public static long twoToten(String bin){//2進表記を10進表記に変換する
 
-
-
+      int len = bin.length();
+	StringBuilder sb = new StringBuilder(bin);
+	
+	long digits = 0;
+	    
+	for(int i = 0; i < len; i++)  
+	    digits += sb.charAt((len-1)-i)=='1' ?  Math.pow(2,i) : 0;
+	   	
+	return digits;
+    }
 
 
 
