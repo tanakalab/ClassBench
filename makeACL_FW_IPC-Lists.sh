@@ -1,11 +1,16 @@
 #! /bin/bash -
+#
+# Example
+# $ ./makeACL_FW_IPC-Lists.sh 1000 100000 10
+#
 # if an input number is less than 2 then program does not terminate ...
 # I need to that anyone fix this bug.
 
-# m is a number of generated rulelists
-m=$3
 # m is a number of rules in a rulelist
 n=$1
+# n is a number of generated rulelists
+m=$3
+
 echo $((m+=1))
 if [ $# == 3 ]
 then
