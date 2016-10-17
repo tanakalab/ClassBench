@@ -18,54 +18,65 @@ class RelatedRule //評価パケット数と従属関係を求めるのに共通
 
 	    String[] num1 = rField[i][1].split("\\.|/") ;
 	    int plefix1 = (Integer.parseInt(num1[4]));
-	    String ZOM1 = (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[0]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[1]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[2]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[3]),8));
+	    long ten1 = Integer.parseInt(num1[0])*(long)Math.pow(2,24) + Integer.parseInt(num1[1])*(long)Math.pow(2,16) + Integer.parseInt(num1[2])*(long)Math.pow(2,8) + Integer.parseInt(num1[3]);
+		//(ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[0]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[1]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[2]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[3]),8));
+	    //例）198.45.44.44/32 = 198*2^24 + 45*2^16 + 44*2^8 + 44  
 
-	    StringBuilder sb1 = new StringBuilder(ZOM1);
+	    long low,high;
 
-	    long str1,str2;
+	    low = (long)Math.pow(2,32-plefix1) * (long)(ten1/Math.pow(2,32-plefix1));
+	    high = low + (long)Math.pow(2,32-plefix1) - 1;
+
+	    //	    System.out.println(low + "-" + high);
 	    
-	    for(int j = plefix1; j < 32; j++)
-		sb1.setCharAt(j,'0');
+	    RelatedRule.rField[i][1] = low + "-" + high;
+
 	    
-	    str1 = ClassBenchToAdjacencyList.twoToten(sb1.toString());
+	    // StringBuilder sb1 = new StringBuilder(ZOM1);
+	    	    
+	    // for(int j = plefix1; j < 32; j++)
+	    // 	sb1.setCharAt(j,'0');
 	    
-	    for(int j = plefix1; j < 32; j++)
-		sb1.setCharAt(j,'1');
+	    // str1 = ClassBenchToAdjacencyList.twoToten(sb1.toString());
+	    
+	    // for(int j = plefix1; j < 32; j++)
+	    // 	sb1.setCharAt(j,'1');
 	   
-	    str2 = ClassBenchToAdjacencyList.twoToten(sb1.toString());
+	    // str2 = ClassBenchToAdjacencyList.twoToten(sb1.toString());
 			
-	    RelatedRule.rField[i][1] = str1 + "-" + str2;
-
 	    if( rField[i].length <= 2 )
-		continue;
+	    	continue;
 	    
 	    String[] num2 = rField[i][2].split("\\.|/") ;
 	    int plefix2 = (Integer.parseInt(num2[4]));
-	    String ZOM2 = (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[0]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[1]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[2]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[3]),8));
+	    long ten2 = Integer.parseInt(num2[0])*(long)Math.pow(2,24) + Integer.parseInt(num2[1])*(long)Math.pow(2,16) + Integer.parseInt(num2[2])*(long)Math.pow(2,8) + Integer.parseInt(num2[3]);
+	    	//(ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[0]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[1]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[2]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[3]),8));
+
+	    low = (long)Math.pow(2,32-plefix2) * (long)(ten2/(long)Math.pow(2,32-plefix2));
+	    high = low + (long)Math.pow(2,32-plefix2) - 1;
 		
-	    StringBuilder sb2 = new StringBuilder(ZOM2);
+	    RelatedRule.rField[i][2] = low + "-" + high;
 	    
-	    for(int j = plefix2; j < 32; j++)
-		sb2.setCharAt(j,'0');
-
-	    str1 = ClassBenchToAdjacencyList.twoToten(sb2.toString());
-
-	    for(int j = plefix2; j < 32; j++)
-		sb2.setCharAt(j,'1');
+	    // StringBuilder sb2 = new StringBuilder(ZOM2);
 	    
-	    str2 = ClassBenchToAdjacencyList.twoToten(sb2.toString());
+	    // for(int j = plefix2; j < 32; j++)
+	    // 	sb2.setCharAt(j,'0');
+
+	    // str1 = ClassBenchToAdjacencyList.twoToten(sb2.toString());
+
+	    // for(int j = plefix2; j < 32; j++)
+	    // 	sb2.setCharAt(j,'1');
+	    
+	    // str2 = ClassBenchToAdjacencyList.twoToten(sb2.toString());
 			
-	    RelatedRule.rField[i][2] = str1 + "-" + str2;
-	}
-	
-	
+	}		
     }
 }
 
 public class ClassBenchToAdjacencyList {//ClassBench形式のルールリストを評価パケット数と従属関係のルールリスト(竹山法やヒキン法で使う)に変換する
     public static void main(String[] args) {
 	if(args.length != 4){
-	    System.out.println("Arguments Error!\nUsage: $ java ClassBenchToAdjacencyList <rulelist> <headerlist> <fieldrule> <outputfile>");
+	    System.out.println("Arguments Error!\nUsage: $ java ClassBenchToAdjacencyList <rulelist> <headerlist> <fieldnumber> <outputfile>");
 	    System.exit(1);
 	}
 	try {
@@ -315,21 +326,21 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    
     }
     public static boolean includeFLAG(String rule1,String rule2){
-	String[] fm1 = rule1.split("/");
-	String[] fm2 = rule2.split("/");
-	if(fm1[1].equals("0x0000") || fm2[1].equals("0x0000"))
+
+	if(rule1.endsWith("0x0000") || rule2.endsWith("0x0000"))
 	    return true;
-
-	String FLAG1 = (tenTotwo(Long.decode(fm1[0]),16));
-	String MASK1 = (tenTotwo(Long.decode(fm1[1]),16));
-	String FLAG2 = (tenTotwo(Long.decode(fm2[0]),16));
-	String MASK2 = (tenTotwo(Long.decode(fm2[1]),16));
-
-	for(int i=0; i<16; i++){
-	    if( MASK1.charAt(i)=='1' && MASK2.charAt(i)=='1' && FLAG1.charAt(i)!=FLAG2.charAt(i) )
-		return false;
-	}
-	return true;
+	else if(rule1.equals(rule2))
+	    return true;	
+	else if(rule1.endsWith("0xffff") || rule2.endsWith("0xffff"))
+	    return false;
+	else if( (rule1.equals("0x0200/0x1200") && rule2.equals("0x0000/0x0200")) || (rule2.equals("0x0200/0x1200") && rule1.equals("0x0000/0x0200")) )
+	    return false;
+	else if( (rule1.equals("0x0200/0x1200") && rule2.equals("0x1000/0x1000")) || (rule2.equals("0x0200/0x1200") && rule1.equals("0x1000/0x1000")) )
+	    return false;		
+	else if( (rule1.substring(7)).equals(rule2.substring(7)) )
+	    return false;
+	else
+	    return true;
     }
     
     public static int[] makeEvaluation(List<String> header){
@@ -404,7 +415,7 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
 		for(int i=0; i < RelatedRule.rSize; i++){
-			
+
 		    if(isMatchSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],hField[2]) && isMatchDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],hField[3]) && isMatchPROT(RelatedRule.rField[i][9],hField[4]) && isMatchFLAG(RelatedRule.rField[i][10],hField[5]) && isMatchSA(RelatedRule.rField[i][1],hField[0]) && isMatchDA(RelatedRule.rField[i][2],hField[1])){    
 			eval[i]++;
 			break;
@@ -420,6 +431,7 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
     public static boolean isMatchSA(String rule,String header){
 
 	String[] str = rule.split("-");
+	//System.out.println(rule);
 	//System.out.println(low + " : " + high +" "+ header);
 	if(Long.parseLong(str[0]) <= Long.parseLong(header) && Long.parseLong(header) <= Long.parseLong(str[1]) )
 	    return true;
@@ -474,26 +486,22 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
     }
 	
     public static boolean isMatchFLAG(String rule,String header){//フラグが合致しているかの比較
-	String[] fm = rule.split("/");
 
-	// System.out.println(rule +" "+ header);
-
-	if(fm[1].equals("0x0000"))
+	if(rule.endsWith("0x0000"))
 	    return true;
 	else {
-	    String FLAG = (tenTotwo(Long.decode(fm[0]),16));
-	    String MASK = (tenTotwo(Long.decode(fm[1]),16));
-	    String HEADER = (tenTotwo(Long.parseLong(header),32));//.subString(0,16);
-	    for(int i = 0; i < 16; i++){
-		if(MASK.charAt(i)=='1' && FLAG.charAt(i) != HEADER.charAt(i))
-		    return false;
-	    }
-	    return true;
-	}
-	//   return false;    
-    }
+	    StringBuilder sb = new StringBuilder(rule);
 
-     
+	    sb.delete(6,9);
+	    if( Long.parseLong(header) == Long.decode( sb.toString() ) )
+		return true;
+	}
+	    return false;
+    }
+    //   return false;    
+
+
+    /*     
     public static String tenTotwo(long num, int numwidth){//10進表記を2進表記に変換する
 	long[] two;
 	int i;
@@ -514,7 +522,7 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	}
 	return returnBits;
     }
-
+    */
   public static long twoToten(String bin){//2進表記を10進表記に変換する
 
       int len = bin.length();
