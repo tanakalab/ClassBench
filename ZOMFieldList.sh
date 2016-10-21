@@ -9,7 +9,7 @@ cd db_generator
 # echo "input header number"
 # read HEADERNUM
 cd ../trace_generator
-./trace_generator 1 0.1 `expr $4 / $1` ../db_generator/MyFilters
+./trace_generator 1 0.1 $4 ../db_generator/MyFilters
 cd ..
 case "$2" in 
     "1") cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1}' > x

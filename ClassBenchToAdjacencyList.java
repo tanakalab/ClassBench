@@ -19,7 +19,6 @@ class RelatedRule //評価パケット数と従属関係を求めるのに共通
 	    String[] num1 = rField[i][1].split("\\.|/") ;
 	    int plefix1 = (Integer.parseInt(num1[4]));
 	    long ten1 = Integer.parseInt(num1[0])*(long)Math.pow(2,24) + Integer.parseInt(num1[1])*(long)Math.pow(2,16) + Integer.parseInt(num1[2])*(long)Math.pow(2,8) + Integer.parseInt(num1[3]);
-		//(ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[0]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[1]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[2]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num1[3]),8));
 	    //例）198.45.44.44/32 = 198*2^24 + 45*2^16 + 44*2^8 + 44  
 
 	    long low,high;
@@ -27,48 +26,20 @@ class RelatedRule //評価パケット数と従属関係を求めるのに共通
 	    low = (long)Math.pow(2,32-plefix1) * (long)(ten1/Math.pow(2,32-plefix1));
 	    high = low + (long)Math.pow(2,32-plefix1) - 1;
 
-	    //	    System.out.println(low + "-" + high);
-	    
 	    RelatedRule.rField[i][1] = low + "-" + high;
 
-	    
-	    // StringBuilder sb1 = new StringBuilder(ZOM1);
-	    	    
-	    // for(int j = plefix1; j < 32; j++)
-	    // 	sb1.setCharAt(j,'0');
-	    
-	    // str1 = ClassBenchToAdjacencyList.twoToten(sb1.toString());
-	    
-	    // for(int j = plefix1; j < 32; j++)
-	    // 	sb1.setCharAt(j,'1');
-	   
-	    // str2 = ClassBenchToAdjacencyList.twoToten(sb1.toString());
-			
 	    if( rField[i].length <= 2 )
 	    	continue;
 	    
 	    String[] num2 = rField[i][2].split("\\.|/") ;
 	    int plefix2 = (Integer.parseInt(num2[4]));
 	    long ten2 = Integer.parseInt(num2[0])*(long)Math.pow(2,24) + Integer.parseInt(num2[1])*(long)Math.pow(2,16) + Integer.parseInt(num2[2])*(long)Math.pow(2,8) + Integer.parseInt(num2[3]);
-	    	//(ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[0]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[1]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[2]),8)) + (ClassBenchToAdjacencyList.tenTotwo(Long.decode(num2[3]),8));
-
+	    
 	    low = (long)Math.pow(2,32-plefix2) * (long)(ten2/(long)Math.pow(2,32-plefix2));
 	    high = low + (long)Math.pow(2,32-plefix2) - 1;
 		
 	    RelatedRule.rField[i][2] = low + "-" + high;
 	    
-	    // StringBuilder sb2 = new StringBuilder(ZOM2);
-	    
-	    // for(int j = plefix2; j < 32; j++)
-	    // 	sb2.setCharAt(j,'0');
-
-	    // str1 = ClassBenchToAdjacencyList.twoToten(sb2.toString());
-
-	    // for(int j = plefix2; j < 32; j++)
-	    // 	sb2.setCharAt(j,'1');
-	    
-	    // str2 = ClassBenchToAdjacencyList.twoToten(sb2.toString());
-			
 	}		
     }
 }
@@ -111,26 +82,21 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    List<String>[] dep = makeDependence();
 	    
 	    for(int i = 0; i < dep.length; i++){   //結果の表示
-	    	//	System.out.print(eval[i] + "\t");
 	    	bw.write("R" + (i+1) + " : ");
 	    	bw.write(String.valueOf(eval[i]));
 	    	if(0 != dep[i].size()){
 	    	    bw.write(" ");
 	    	    for(int j = dep[i].size()-1;0 <= j; j--){
-	    		//	System.out.print(dep[i].get(j));
-	    		bw.write(dep[i].get(j));
+			bw.write(dep[i].get(j));
 	    		if(j == 0){
-	    		    //	System.out.println("");
-	    		    bw.newLine();
+			    bw.newLine();
 	    		    break;
 	    		}
-	    		//   System.out.print(",");
-	    		bw.write(",");
+			bw.write(",");
 	    	    }
 	    	}
 	    	else{
-	    	    // System.out.println("");
-	    	    bw.newLine();
+		    bw.newLine();
 	    	}
 	    }
 
@@ -415,8 +381,8 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
 		for(int i=0; i < RelatedRule.rSize; i++){
-
-		    if(isMatchSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],hField[2]) && isMatchDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],hField[3]) && isMatchPROT(RelatedRule.rField[i][9],hField[4]) && isMatchFLAG(RelatedRule.rField[i][10],hField[5]) && isMatchSA(RelatedRule.rField[i][1],hField[0]) && isMatchDA(RelatedRule.rField[i][2],hField[1])){    
+		    if(isMatchSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],hField[2]) && isMatchDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],hField[3]) && isMatchPROT(RelatedRule.rField[i][9],hField[4]) && isMatchFLAG(RelatedRule.rField[i][10],hField[5]) && isMatchSA(RelatedRule.rField[i][1],hField[0]) && isMatchDA(RelatedRule.rField[i][2],hField[1])){
+	        
 			eval[i]++;
 			break;
 		    }
@@ -490,56 +456,21 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	if(rule.endsWith("0x0000"))
 	    return true;
 	else {
-	    StringBuilder sb = new StringBuilder(rule);
-
-	    sb.delete(6,9);
-	    if( Long.parseLong(header) == Long.decode( sb.toString() ) )
+	    if( (header.equals("0") && rule.equals("0x0000/0x0200") ) || ( header.equals("4294967295") && rule.equals("0x1000/0x1000") ) ) //acl_seed
 		return true;
+	    else if( (header.equals("0") && rule.equals("0x0000/0xff00") ) || (header.equals("4294967295") && ( rule.equals("0x0400/0x0400") || rule.equals("0x0100/0x0100") ) ) || (header.equals("33559040") && rule.equals("0x0400/0x0400") ) || (header.equals("67109888") && rule.equals("0x0200/0x1200") ) )//fw_seed
+		return true;
+	    else if( (header.equals("4294967295") && rule.equals("0x0200/0x0200") ) )//ipc_seed
+		return true;
+	    else{
+		StringBuilder sb = new StringBuilder(rule);	       
+		sb.delete(6,9);
+		if( Long.parseLong(header) == Long.decode( sb.toString() ) )
+		    return true;
+	    }
 	}
-	    return false;
+	return false;
     }
-    //   return false;    
-
-
-    /*     
-    public static String tenTotwo(long num, int numwidth){//10進表記を2進表記に変換する
-	long[] two;
-	int i;
-	String returnBits = "";
-	two = new long[65535];
-
-	for(i=0;i<(numwidth-1);i++) {
-	    two[i] = num%2;
-	    num = num >> 1;
-	}
-	two[i] = num;
-	while(i>=0){
-	    if(two[i]==1)
-		returnBits += '1';
-	    else
-		returnBits += '0';
-	    i--;
-	}
-	return returnBits;
-    }
-    */
-  public static long twoToten(String bin){//2進表記を10進表記に変換する
-
-      int len = bin.length();
-	StringBuilder sb = new StringBuilder(bin);
-	
-	long digits = 0;
-	    
-	for(int i = 0; i < len; i++)  
-	    digits += sb.charAt((len-1)-i)=='1' ?  Math.pow(2,i) : 0;
-	   	
-	return digits;
-    }
-
-
-
-    
-
 
 }
 
