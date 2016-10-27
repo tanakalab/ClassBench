@@ -54,7 +54,7 @@ java ClassBenchToAdjacencyList a y $2  x
 
 #下記の２つの命令からどちらか一方をコメントアウトする
 #awk '{print "R" NR,$0;}' x > $5 #ルール番号付きの結果を出力
-mv x $5 #ルール番号なしの結果を出力
+cp x $5 #ルール番号なしの結果を出力
 
 
 rm x
