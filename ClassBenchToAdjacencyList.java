@@ -81,8 +81,7 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    int[] eval = makeEvaluation(header);
 	    List<String>[] dep = makeDependence();
 	    
-	    for(int i = 0; i < dep.length; i++){   //結果の表示
-	    	bw.write("R" + (i+1) + " : ");
+	    for(int i = 0; i < dep.length; i++){   //結果の表示	    
 	    	bw.write(String.valueOf(eval[i]));
 	    	if(0 != dep[i].size()){
 	    	    bw.write(" ");
