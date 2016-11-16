@@ -1,17 +1,8 @@
 
-# echo "input rule number"
-# read RULENUM
-# echo "input field number (1 <= n <= 6)"
-# read FIELD
-# echo "input a file in parameter_files"
-# read PARAMETER
-
-#形式　$ sh AdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule 0.5
-
 ruleNum=`expr $# - 4`
 seed_file=`expr $# - 3`
 headNum=`expr $# - 2`
-result=`expr $# - 1`
+ruleName=`expr $# - 1`
 pro=$#
 
 cd db_generator
@@ -102,17 +93,17 @@ javac AddEtype.java
 eval  java AddEtype x OriginalList '$'{$pro}
 javac ClassBenchToAdjacencyList.java
 case "$#" in
-    "6") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$result} $1
+    "6") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$ruleName} $1
 	 ;;
-    "7") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$result} $1 $2
+    "7") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$ruleName} $1 $2
 	 ;;
-    "8") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$result} $1 $2 $3
+    "8") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$ruleName} $1 $2 $3
 	 ;;
-    "9") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$result} $1 $2 $3 $4
+    "9") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$ruleName} $1 $2 $3 $4
 	 ;;
-    "10") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$result} $1 $2 $3 $4 $5
+    "10") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$ruleName} $1 $2 $3 $4 $5
 	  ;;
-    "11") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$result} $1 $2 $3 $4 $5 $6
+    "11") eval java ClassBenchToAdjacencyList OriginalList Header '$'{$ruleName} $1 $2 $3 $4 $5 $6
 esac
 
 rm a
