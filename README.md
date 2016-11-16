@@ -73,6 +73,7 @@ git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレ
 
 ※フィールド  
 (SA(source address)　DA(destination address)　SP(source port)　DP(destination port)　PROT(protocol)　FLAG(flags))  
+※フィールドを入力するときはこの順番からいらないフィールドを削った状態の物を引数とする．
 
 コマンド  
 
@@ -81,9 +82,9 @@ $ cd ClassBench
 $ sh compile.sh   
   
   
- 1. classbench.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
+ 1. classbench.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
-$ sh classbench.sh 100 6 acl1_seed 1 Rule Header
+$ sh classbench.sh SA DA SP DP 300 acl5_seed 2 Rule Header
   
   
  2. ZOMRangeFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
