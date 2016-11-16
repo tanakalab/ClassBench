@@ -62,7 +62,7 @@ ClassBenchから下記の1~7の形式の中の一つを生成することがで�
 ##Usage   
 
 git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
-作成されたディレクトリに移動しcompile.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
+作成されたディレクトリに移動しdownloads.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
 そして後は自分の生成したいルールセットに合わせて下記の1~7のどれかのスクリプトを実行する．  
 下記の1~7は上記で示した1~7に対応している．
 
@@ -87,9 +87,9 @@ $ sh compile.sh
 $ sh classbench.sh SA DA SP DP 300 acl5_seed 2 Rule Header
   
   
- 2. ZOMRangeFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
+ 2. ZOMRangeFieldList.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
-$ sh ZOMRangeFieldList.sh 100 5 acl1_seed 1 Rule Header
+$ sh ZOMRangeFieldList.sh SA SP PROT FLAG 400 fw1_seed 1 Rule Header
   
   
  3. ZOMFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．   
