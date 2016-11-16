@@ -1,55 +1,149 @@
 import java.io.*;
 import java.util.*;
 
+class Node
+{
+    int eval;
+    List<String> dep;
+
+    Node(int e,List<String> d){
+	eval = e;
+	dep = d;
+    }
+    
+    @Override
+    public String toString(){
+
+	if(dep.isEmpty())
+	    return String.valueOf(eval);
+
+	else{
+	    String str;
+	    str = eval + " ";
+	    for(int i = dep.size()-1;0 <= i; i--){
+		str += dep.get(i);
+		if(i == 0)		    
+		    break;	       
+		str += ",";
+	    }		    
+	    return str;
+	}
+    }
+}   
 class RelatedRule //評価パケット数と従属関係を求めるのに共通するルールの値を格納
 {
     public static int rSize;
     
     public static String[][] rField = new String[rSize][];
 
-
-    public static void setRule(List<String> rule,int fieldnum){
-
-	rField = new String[rSize][fieldnum];
-	for(int i=0; i < rSize; i++){
-	    //  System.out.println(	    
-	    rField[i] = (rule.get(i)).split("\\s+|\\t+");
-	    rField[i][1] = rField[i][1].substring(1);
-
-	    String[] num1 = rField[i][1].split("\\.|/") ;
-	    int plefix1 = (Integer.parseInt(num1[4]));
-	    long ten1 = Integer.parseInt(num1[0])*(long)Math.pow(2,24) + Integer.parseInt(num1[1])*(long)Math.pow(2,16) + Integer.parseInt(num1[2])*(long)Math.pow(2,8) + Integer.parseInt(num1[3]);
-	    //例）198.45.44.44/32 = 198*2^24 + 45*2^16 + 44*2^8 + 44  
-
-	    long low,high;
-
-	    low = (long)Math.pow(2,32-plefix1) * (long)(ten1/Math.pow(2,32-plefix1));
-	    high = low + (long)Math.pow(2,32-plefix1) - 1;
-
-	    RelatedRule.rField[i][1] = low + "-" + high;
-
-	    if( rField[i].length <= 2 )
-	    	continue;
-	    
-	    String[] num2 = rField[i][2].split("\\.|/") ;
-	    int plefix2 = (Integer.parseInt(num2[4]));
-	    long ten2 = Integer.parseInt(num2[0])*(long)Math.pow(2,24) + Integer.parseInt(num2[1])*(long)Math.pow(2,16) + Integer.parseInt(num2[2])*(long)Math.pow(2,8) + Integer.parseInt(num2[3]);
-	    
-	    low = (long)Math.pow(2,32-plefix2) * (long)(ten2/(long)Math.pow(2,32-plefix2));
-	    high = low + (long)Math.pow(2,32-plefix2) - 1;
-		
-	    RelatedRule.rField[i][2] = low + "-" + high;
-	    
-	}		
+    public static void setSize(int size){
+	rSize = size;
     }
+    
+    public static void setRule(List<String> rule,String[] args){
+	int sp=0,dp=0;
+	
+	if(Arrays.asList(args).contains("SP"))
+	    sp+=2;
+	if(Arrays.asList(args).contains("DP"))
+	    dp+=2;
+	
+	rField = new String[rSize][args.length + 1 - 3 + dp + sp];
+
+	if( Arrays.asList(args).contains("SA") && Arrays.asList(args).contains("DA") ){
+	    for(int i=0; i < rSize; i++){
+		//  System.out.println(	    
+		rField[i] = (rule.get(i)).split("\\s+|\\t+");
+		rField[i][1] = rField[i][1].substring(1);
+
+		String[] num1 = rField[i][1].split("\\.|/") ;
+		int plefix1 = (Integer.parseInt(num1[4]));
+		long ten1 = Integer.parseInt(num1[0])*(long)Math.pow(2,24) + Integer.parseInt(num1[1])*(long)Math.pow(2,16) + Integer.parseInt(num1[2])*(long)Math.pow(2,8) + Integer.parseInt(num1[3]);
+		//例）198.45.44.44/32 = 198*2^24 + 45*2^16 + 44*2^8 + 44  
+
+		long low,high;
+
+		low = (long)Math.pow(2,32-plefix1) * (long)(ten1/Math.pow(2,32-plefix1));
+		high = low + (long)Math.pow(2,32-plefix1) - 1;
+
+		RelatedRule.rField[i][1] = low + "-" + high;
+
+
+		String[] num2 = rField[i][2].split("\\.|/") ;
+		int plefix2 = (Integer.parseInt(num2[4]));
+		long ten2 = Integer.parseInt(num2[0])*(long)Math.pow(2,24) + Integer.parseInt(num2[1])*(long)Math.pow(2,16) + Integer.parseInt(num2[2])*(long)Math.pow(2,8) + Integer.parseInt(num2[3]);
+		
+		low = (long)Math.pow(2,32-plefix2) * (long)(ten2/(long)Math.pow(2,32-plefix2));
+		high = low + (long)Math.pow(2,32-plefix2) - 1;
+		
+		RelatedRule.rField[i][2] = low + "-" + high;
+		
+
+	    }	    
+	}
+	
+	else if( Arrays.asList(args).contains("SA") ){
+	    for(int i=0; i < rSize; i++){
+		//  System.out.println(	    
+		rField[i] = (rule.get(i)).split("\\s+|\\t+");
+		rField[i][1] = rField[i][1].substring(1);
+
+		String[] num1 = rField[i][1].split("\\.|/") ;
+		int plefix1 = (Integer.parseInt(num1[4]));
+		long ten1 = Integer.parseInt(num1[0])*(long)Math.pow(2,24) + Integer.parseInt(num1[1])*(long)Math.pow(2,16) + Integer.parseInt(num1[2])*(long)Math.pow(2,8) + Integer.parseInt(num1[3]);
+		//例）198.45.44.44/32 = 198*2^24 + 45*2^16 + 44*2^8 + 44  
+
+		long low,high;
+
+		low = (long)Math.pow(2,32-plefix1) * (long)(ten1/Math.pow(2,32-plefix1));
+		high = low + (long)Math.pow(2,32-plefix1) - 1;
+
+		RelatedRule.rField[i][1] = low + "-" + high;
+
+	    }
+	}
+
+	else if( Arrays.asList(args).contains("DA") ){
+	    
+	    for(int i=0; i < rSize; i++){
+		rField[i] = (rule.get(i)).split("\\s+|\\t+");
+		//rField[i][1] = rField[i][1].substring(1);
+
+		String[] num2 = rField[i][1].split("\\.|/") ;
+		int plefix2 = (Integer.parseInt(num2[4]));
+		long ten2 = Integer.parseInt(num2[0])*(long)Math.pow(2,24) + Integer.parseInt(num2[1])*(long)Math.pow(2,16) + Integer.parseInt(num2[2])*(long)Math.pow(2,8) + Integer.parseInt(num2[3]);
+
+		long low,high;
+		
+		low = (long)Math.pow(2,32-plefix2) * (long)(ten2/(long)Math.pow(2,32-plefix2));
+		high = low + (long)Math.pow(2,32-plefix2) - 1;
+		
+		RelatedRule.rField[i][1] = low + "-" + high;
+	    
+	    }
+	}
+	else{
+	    for(int i=0; i < rSize; i++)		
+		rField[i] = (rule.get(i)).split("\\s+|\\t+");
+	    
+	}
+	    
+    }	
 }
 
 public class ClassBenchToAdjacencyList {//ClassBench形式のルールリストを評価パケット数と従属関係のルールリスト(竹山法やヒキン法で使う)に変換する
     public static void main(String[] args) {
-	if(args.length != 4){
-	    System.out.println("Arguments Error!\nUsage: $ java ClassBenchToAdjacencyList <rulelist> <headerlist> <fieldnumber> <outputfile>");
+	if(args.length < 4 || args.length > 9){
+	    System.out.println("Arguments Error!\nUsage: $ java ClassBenchToAdjacencyList <rulelist> <headerlist> <outputfile> [fields] ");
 	    System.exit(1);
 	}
+	for(int i = 3; i < args.length; i++){
+	    if( !(args[i].equals("SA") ||  args[i].equals("DA") ||  args[i].equals("SP") ||  args[i].equals("DP") ||  args[i].equals("PROT") ||  args[i].equals("FLAG") ) ){
+		System.out.println("Arguments Error! : " + args[i]  + "\nSelect field arguments in SA,DA,SP,DP,PROT and FLAG");
+		System.exit(1);
+	    }
+	}
+	
 	try {
 	    int fieldnum;
 	    List<String> rule = new ArrayList<String>();
@@ -59,7 +153,7 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    BufferedReader br1 = new BufferedReader(new FileReader(rInput));//入力ファイル
 	    File hInput = new File(args[1]);
 	    BufferedReader br2 = new BufferedReader(new FileReader(hInput));//入力ファイル
-	    File output = new File(args[3]);
+	    File output = new File(args[2]);
 	    BufferedWriter bw = new BufferedWriter(new FileWriter(output));//出力ファイル
 	    String str;
 		    
@@ -69,38 +163,27 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    while((str = br2.readLine()) != null)
 		header.add(str);
 
-	    RelatedRule.rSize = rule.size();
-	    if(Integer.parseInt(args[2]) <= 2)
-		fieldnum = Integer.parseInt(args[2]) + 1;
-	    else if(Integer.parseInt(args[2]) == 3)
-		fieldnum = Integer.parseInt(args[2]) + 3;
-	    else
-		fieldnum = Integer.parseInt(args[2]) + 5;
-	    RelatedRule.setRule(rule,fieldnum);
-	  
-	    int[] eval = makeEvaluation(header);
-	    List<String>[] dep = makeDependence();
+	    RelatedRule.setSize( rule.size() );
+	    RelatedRule.setRule(rule,args);
+
+	    // String[] argcopy = new String[args.length-3];
+	    // System.arraycopy(args,3,argcopy,0,args.length-3);
 	    
-	    for(int i = 0; i < dep.length; i++){   //結果の表示	    
-	    	bw.write(String.valueOf(eval[i]));
-	    	if(0 != dep[i].size()){
-	    	    bw.write(" ");
-	    	    for(int j = dep[i].size()-1;0 <= j; j--){
-			bw.write(dep[i].get(j));
-	    		if(j == 0){
-			    bw.newLine();
-	    		    break;
-	    		}
-			bw.write(",");
-	    	    }
-	    	}
-	    	else{
-		    bw.newLine();
-	    	}
+	    int[] eval = makeEvaluation(header,args);
+	    List<String>[] dep = makeDependence(args);
+
+	    ArrayList<Node> AList = new ArrayList<Node>();
+
+	    for(int i = 0; i < eval.length; i++){
+		Node node = new Node(eval[i],dep[i]);
+		AList.add(node);
 	    }
 
-	    
-	    
+	    for(Node n : AList){ //結果の表示
+	    	bw.write( n.toString() );
+	    	bw.newLine();
+	    }
+	        
 	    br1.close();
 	    br2.close();
 	    bw.close();
@@ -111,122 +194,501 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	}
     }
     
-    public static List<String>[] makeDependence(){ //従属関係を生成
+    public static List<String>[] makeDependence(String[] args){ //従属関係を生成
 
+	int SPadjust = Arrays.asList(args).contains("SP") ? 2 : 0;
+	int DPadjust = Arrays.asList(args).contains("DP") ? 2 : 0;
 	int ruleFieldSize = RelatedRule.rField[0].length;	
 	ArrayList<String>[] dep = new ListString[RelatedRule.rSize]; //従属関係を格納する配列
 	for(int i = 0; i < dep.length; i++)
 	    dep[i] = new ListString();
 
-	switch(ruleFieldSize){
+	switch(args.length){
 
-	case 2://評価型 送信元アドレス
+	case 4://　評価型＋フィールド数１　のルール
 	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
-		for(int j=i-1; 0<=j; j--){
-		
+		outside: for(int j=i-1; 0<=j; j--){
 		    if(RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
-			continue;
+			continue outside;
+		    
+		    switch(args[3]){
 
-		    if( includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) ){
-		    
-			// System.out.println((i+1) +" "+ (j+1));
-		    
-			dep[i].add(String.valueOf(j+1));
-			//   System.out.println(j+1);
+		    case "SA":
+			if( includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) ){
+			    
+			    // System.out.println((i+1) +" "+ (j+1));
+			    
+			    dep[i].add(String.valueOf(j+1));
+			    //   System.out.println(j+1);
+			}
+			break;
+		    case "DA":
+			if( includeDA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) ){
+			    
+			    // System.out.println((i+1) +" "+ (j+1));
+			    
+			    dep[i].add(String.valueOf(j+1));
+			    //   System.out.println(j+1);
+			}
+			break;
+		    case "SP":
+			if( includeSP(RelatedRule.rField[i][1],RelatedRule.rField[i][3],RelatedRule.rField[j][1],RelatedRule.rField[j][3]) ){
+			    
+			    // System.out.println((i+1) +" "+ (j+1));
+			    
+			    dep[i].add(String.valueOf(j+1));
+			    //   System.out.println(j+1);
+			}
+			break;
+		    case "DP":
+			if(includeDP(RelatedRule.rField[i][1],RelatedRule.rField[i][3],RelatedRule.rField[j][1],RelatedRule.rField[j][3]) ){
+			    
+			    // System.out.println((i+1) +" "+ (j+1));
+			    
+			    dep[i].add(String.valueOf(j+1));
+			    //   System.out.println(j+1);
+			}
+			break;
+		    case "PROT":
+			if( includePROT(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) ){
+			    
+			    // System.out.println((i+1) +" "+ (j+1));
+			    
+			    dep[i].add(String.valueOf(j+1));
+			    //   System.out.println(j+1);
+			}
+			break;
+		    }
+		}
+	    }
+	
+	    break;
+	    			
+	case 5://　評価型＋フィールド数２　のルール
+	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
+		outside: for(int j=i-1; 0<=j; j--){
+		    for(int k=4; k >= 3; k--){
+			if(k==4 && RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
+			    continue outside;			
+			switch(args[k]){
+			case "SA":
+			    if( includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) ){
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;			
+			    break;
+			case "DA":
+			    if( includeDA(RelatedRule.rField[i][k-2],RelatedRule.rField[j][k-2]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( includeSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],RelatedRule.rField[j][k-2],RelatedRule.rField[j][k]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k==3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if(includeDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],RelatedRule.rField[j][k-2 + SPadjust],RelatedRule.rField[j][k + SPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( includePROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":
+			    if( includeFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;    
+			    break;
+			}
 		    }
 		}
 	    }
 	    break;
 		
-	case 3://評価型 送信元アドレス　送信先アドレス
+	case 6://　評価型＋フィールド数３　のルール
 	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
-		for(int j=i-1; 0<=j; j--){
-		
-		    if(RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
-			continue;
+		outside: for(int j=i-1; 0<=j; j--){
+		    for(int k=5; k >= 3; k--){
+			if(k==5 && RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
+			    continue outside;			
+			switch(args[k]){
+			case "SA":
+			    if( includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) ){
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;			
+			    break;
+			case "DA":
+			    if( includeDA(RelatedRule.rField[i][k-2],RelatedRule.rField[j][k-2]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( includeSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],RelatedRule.rField[j][k-2],RelatedRule.rField[j][k]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k==3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if(includeDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],RelatedRule.rField[j][k-2 + SPadjust],RelatedRule.rField[j][k + SPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( includePROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":
+			    if( includeFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;    
+			    break;
 
-		    if( includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) && includeDA(RelatedRule.rField[i][2],RelatedRule.rField[j][2]) ){
-		    
-			// System.out.println((i+1) +" "+ (j+1));
-		    
-			dep[i].add(String.valueOf(j+1));
-			//   System.out.println(j+1);
+
+			}
 		    }
 		}
 	    }
 	    break;
 		
-	case 6://評価型 送信元アドレス　送信先アドレス　送信元ポート
+	case 7://　評価型＋フィールド数４　のルール
 	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
-		for(int j=i-1; 0<=j; j--){
-		
-		    if(RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
-			continue;
+		outside:for(int j=i-1; 0<=j; j--){
+		    for(int k=6; k >= 3; k--){
+			if(k==6 && RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
+			    continue outside;			
+			switch(args[k]){
+			case "SA":
+			    if( includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) ){
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;			
+			    break;
+			case "DA":
+			    if( includeDA(RelatedRule.rField[i][k-2],RelatedRule.rField[j][k-2]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( includeSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],RelatedRule.rField[j][k-2],RelatedRule.rField[j][k]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k==3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if(includeDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],RelatedRule.rField[j][k-2 + SPadjust],RelatedRule.rField[j][k + SPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( includePROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":
+			    if( includeFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;    
+			    break;
 
-		    if(includeSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],RelatedRule.rField[j][3],RelatedRule.rField[j][5]) && includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) && includeDA(RelatedRule.rField[i][2],RelatedRule.rField[j][2]) ){
-		    
-			// System.out.println((i+1) +" "+ (j+1));
-		    
-			dep[i].add(String.valueOf(j+1));
-			//   System.out.println(j+1);
+			}
+		    }
+		}
+	    }
+	
+	    break;
+		
+	case 8://　評価型＋フィールド数５　のルール
+	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
+		outside: for(int j=i-1; 0<=j; j--){
+		    for(int k=7; k >= 3; k--){
+			if(k==7 && RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
+			    continue outside;			
+			switch(args[k]){
+			case "SA":
+			    if( includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) ){
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;			
+			    break;
+			case "DA":
+			    if( includeDA(RelatedRule.rField[i][k-2],RelatedRule.rField[j][k-2]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( includeSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],RelatedRule.rField[j][k-2],RelatedRule.rField[j][k]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k==3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if(includeDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],RelatedRule.rField[j][k-2 + SPadjust],RelatedRule.rField[j][k + SPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( includePROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":
+			    if( includeFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;    
+			    break;
+
+			}
 		    }
 		}
 	    }
 	    break;
 		
-	case 9://評価型 送信元アドレス　送信先アドレス　送信元ポート　送信先ポート
+	case 9://　評価型＋フィールド数６　のルール
 	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
-		for(int j=i-1; 0<=j; j--){
-		
-		    if(RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
-			continue;
+		outside: for(int j=i-1; 0<=j; j--){
+		    for(int k=8; k >= 3; k--){
+			if(k==8 && RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
+			    continue outside;			
+			switch(args[k]){
+			case "SA":
+			    if( includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) ){
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;			
+			    break;
+			case "DA":
+			    if( includeDA(RelatedRule.rField[i][k-2],RelatedRule.rField[j][k-2]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( includeSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],RelatedRule.rField[j][k-2],RelatedRule.rField[j][k]) ){
+			    
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k==3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if(includeDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],RelatedRule.rField[j][k-2 + SPadjust],RelatedRule.rField[j][k + SPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( includePROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+				
+				// System.out.println((i+1) +" "+ (j+1));
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":
+			    // if(i==332 && j == 331)
+				//	System.out.println( includeFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust])+" "+RelatedRule.rField[i][k-2 + SPadjust + DPadjust]+" "+RelatedRule.rField[j][k-2 + SPadjust + DPadjust] );
+			    if( includeFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust]) ){
+				if(k == 3){
+				    dep[i].add(String.valueOf(j+1));
+				    //   System.out.println(j+1);
+				}
+			    }
+			    else
+				continue outside;    
+			    break;
 
-		    if(includeSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],RelatedRule.rField[j][3],RelatedRule.rField[j][5]) && includeDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],RelatedRule.rField[j][6],RelatedRule.rField[j][8]) && includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) && includeDA(RelatedRule.rField[i][2],RelatedRule.rField[j][2]) ){
-		    
-			// System.out.println((i+1) +" "+ (j+1));
-		    
-			dep[i].add(String.valueOf(j+1));
-			//   System.out.println(j+1);
+			}
 		    }
 		}
 	    }
 	    break;
-		
-	case 10://評価型 送信元アドレス　送信先アドレス　送信元ポート　送信先ポート　プロトコル
-	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
-		for(int j=i-1; 0<=j; j--){
-		
-		    if(RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
-			continue;
-
-		    if(includeSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],RelatedRule.rField[j][3],RelatedRule.rField[j][5]) && includeDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],RelatedRule.rField[j][6],RelatedRule.rField[j][8]) && includePROT(RelatedRule.rField[i][9],RelatedRule.rField[j][9]) && includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) && includeDA(RelatedRule.rField[i][2],RelatedRule.rField[j][2]) ){
-		    
-			// System.out.println((i+1) +" "+ (j+1));
-		    
-			dep[i].add(String.valueOf(j+1));
-			//   System.out.println(j+1);
-		    }
-		}
-	    }
-	    break;
-		
-	case 11://評価型 送信元アドレス　送信先アドレス　送信元ポート　送信先ポート　プロトコル　フラグ
-	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
-		for(int j=i-1; 0<=j; j--){
-		
-		    if(RelatedRule.rField[i][0].equals(RelatedRule.rField[j][0]))
-			continue;
-
-		    if(includeSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],RelatedRule.rField[j][3],RelatedRule.rField[j][5]) && includeDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],RelatedRule.rField[j][6],RelatedRule.rField[j][8]) && includePROT(RelatedRule.rField[i][9],RelatedRule.rField[j][9]) && includeFLAG(RelatedRule.rField[i][10],RelatedRule.rField[j][10]) && includeSA(RelatedRule.rField[i][1],RelatedRule.rField[j][1]) && includeDA(RelatedRule.rField[i][2],RelatedRule.rField[j][2])){
-		    
-			// System.out.println((i+1) +" "+ (j+1));
-		    
-			dep[i].add(String.valueOf(j+1));
-			//   System.out.println(j+1);
-		    }
-		}
-	    }
-
 	}
 
 	return dep;	       
@@ -308,83 +770,421 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    return true;
     }
     
-    public static int[] makeEvaluation(List<String> header){
-	
+    public static int[] makeEvaluation(List<String> header,String[] args){
+
+	int SPadjust = Arrays.asList(args).contains("SP") ? 2 : 0;
+	int DPadjust = Arrays.asList(args).contains("DP") ? 2 : 0;
 	int hSize = header.size();	
 	int[] eval = new int[RelatedRule.rSize];//評価パケット数を格納する配列
 	String[] hField = header.get(0).split("\\s+|\\t+");
 	//	System.out.println(hField.length);
-	switch(hField.length){
+	switch(args.length){
 	    
-	case 1://送信元アドレス
+	case 4://　評価型＋フィールド数１　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
-		for(int i=0; i < RelatedRule.rSize; i++){
-		    if( isMatchSA(RelatedRule.rField[i][1],hField[0]) ){    
-			eval[i]++;
+		outside: for(int i=0; i < RelatedRule.rSize; i++){
+		    switch(args[3]){
+
+		    case "SA":
+			if( isMatchSA(RelatedRule.rField[i][1],hField[0]) ) {			   
+			    eval[i]++;
+			    break outside;
+			}
 			break;
+		    case "DA":
+			if( isMatchDA(RelatedRule.rField[i][1],hField[0]) )    {
+			    eval[i]++;
+			    break outside;
+			}
+			break;
+		    case "SP":
+			if( isMatchSP(RelatedRule.rField[i][1],RelatedRule.rField[i][3],hField[0]) ){
+			    eval[i]++;
+			    break outside;
+			}
+			break;
+		    case "DP":
+			if( isMatchDP(RelatedRule.rField[i][1],RelatedRule.rField[i][3],hField[0]) ){			    
+			    eval[i]++;
+			    break outside;
+			}
+			break;
+		    case "PROT":
+			if( isMatchPROT(RelatedRule.rField[i][1],hField[0]) ){
+			    eval[i]++;
+			    break outside;
+			}
+			break;		    
 		    }
 		}
 	    }
 	    break;
 	    
-	case 2://送信元アドレス　送信先アドレス
+	case 5://　評価型＋フィールド数２　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
-		for(int i=0; i < RelatedRule.rSize; i++){		
-		    if(isMatchSA(RelatedRule.rField[i][1],hField[0]) && isMatchDA(RelatedRule.rField[i][2],hField[1]) ){    
-			eval[i]++;
-			break;
+		outside: for(int i=0; i < RelatedRule.rSize; i++){
+		    for(int k=4; k >= 3; k--){
+			switch(args[k]){
+			case "SA":
+			    if( isMatchSA(RelatedRule.rField[i][1],hField[0]) ) {
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DA":
+			    if( isMatchDA(RelatedRule.rField[i][k-2],hField[k-3]) ){				
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( isMatchSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if( isMatchDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],hField[k-3]) ){
+				if(k == 3){				    
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( isMatchPROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":
+			    //System.out.println( RelatedRule.rField[i][0] + " " +  RelatedRule.rField[i][1] + " " + RelatedRule.rField[i][2] + " " + RelatedRule.rField[i][k-2 + SPadjust + DPadjust] + " " + hField[k-3]);
+			    if( isMatchFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;		    		    
+			}
 		    }
 		}
 	    }
 	    break;
 	    
-	case 3://送信元アドレス　送信先アドレス　送信元ポート
+	case 6://　評価型＋フィールド数３　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");	    
-		for(int i=0; i < RelatedRule.rSize; i++){
-		    if(isMatchSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],hField[2]) && isMatchSA(RelatedRule.rField[i][1],hField[0]) && isMatchDA(RelatedRule.rField[i][2],hField[1])){    
-			eval[i]++;
-			break;
-		    }
+		outside: for(int i=0; i < RelatedRule.rSize; i++){
+		    for(int k=5; k >= 3; k--){
+			switch(args[k]){
+			case "SA":
+			    if( isMatchSA(RelatedRule.rField[i][1],hField[0]) ) {
+				if(k == 3 ){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DA":
+			    if( isMatchDA(RelatedRule.rField[i][k-2],hField[k-3]) )    {
+				if(k == 3 ){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( isMatchSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if( isMatchDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( isMatchPROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":			    
+			    if( isMatchFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;		    		    
+			}
+		    }		    
 		}
 	    }
 	    break;
 	    
-	case 4://送信元アドレス　送信先アドレス　送信元ポート　送信先ポート
+	case 7://　評価型＋フィールド数４　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
-		for(int i=0; i < RelatedRule.rSize; i++){		
-		    if(isMatchSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],hField[2]) && isMatchDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],hField[3]) && isMatchSA(RelatedRule.rField[i][1],hField[0]) && isMatchDA(RelatedRule.rField[i][2],hField[1])){    
-			eval[i]++;
-			break;
+		outside: for(int i=0; i < RelatedRule.rSize; i++){		
+		    for(int k=6; k >= 3; k--){
+			switch(args[k]){
+			case "SA":
+			    if( isMatchSA(RelatedRule.rField[i][k-2],hField[k-3]) ) {
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DA":
+			    if( isMatchDA(RelatedRule.rField[i][k-2],hField[k-3]) )    {
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( isMatchSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if( isMatchDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( isMatchPROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":			    
+			    if( isMatchFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;		    		    
+			}
 		    }
+        
 		}
 	    }
 	    break;
 	    
-	case 5://送信元アドレス　送信先アドレス　送信元ポート　送信先ポート　プロトコル
+	case 8://　評価型＋フィールド数５　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");	    
-		for(int i=0; i < RelatedRule.rSize; i++){		
-		    if(isMatchSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],hField[2]) && isMatchDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],hField[3]) && isMatchPROT(RelatedRule.rField[i][9],hField[4]) && isMatchSA(RelatedRule.rField[i][1],hField[0]) && isMatchDA(RelatedRule.rField[i][2],hField[1])){    
-			eval[i]++;
-			break;
+		outside: for(int i=0; i < RelatedRule.rSize; i++){		
+		    for(int k=7; k >= 3; k--){
+			switch(args[k]){
+			case "SA":
+			    if( isMatchSA(RelatedRule.rField[i][k-2],hField[k-3]) ) {
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DA":
+			    if( isMatchDA(RelatedRule.rField[i][k-2],hField[k-3]) )    {
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( isMatchSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if( isMatchDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( isMatchPROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":			    
+			    if( isMatchFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;		    		    
+			}
 		    }
+
 		}
 	    }
 	    break;
 	    
-	case 6://送信元アドレス　送信先アドレス　送信元ポート　送信先ポート　プロトコル　フラグ　
+	case 9://　評価型＋フィールド数６　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
-		for(int i=0; i < RelatedRule.rSize; i++){
-		    if(isMatchSP(RelatedRule.rField[i][3],RelatedRule.rField[i][5],hField[2]) && isMatchDP(RelatedRule.rField[i][6],RelatedRule.rField[i][8],hField[3]) && isMatchPROT(RelatedRule.rField[i][9],hField[4]) && isMatchFLAG(RelatedRule.rField[i][10],hField[5]) && isMatchSA(RelatedRule.rField[i][1],hField[0]) && isMatchDA(RelatedRule.rField[i][2],hField[1])){
-	        
-			eval[i]++;
-			break;
+		outside: for(int i=0; i < RelatedRule.rSize; i++){
+		    for(int k=8; k >= 3; k--){
+			switch(args[k]){
+			case "SA":
+			    if( isMatchSA(RelatedRule.rField[i][k-2],hField[k-3]) ) {
+				if(k == 3){
+				    //  if(i==809)
+				    //	System.out.println(hField[0] + " " +hField[1] + " " +hField[2] + " " +hField[3] + " " +hField[4] + " " +hField[5]);
+				    
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DA":
+			    if( isMatchDA(RelatedRule.rField[i][k-2],hField[k-3]) )    {
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "SP":
+			    if( isMatchSP(RelatedRule.rField[i][k-2],RelatedRule.rField[i][k],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "DP":
+			    if( isMatchDP(RelatedRule.rField[i][k-2 + SPadjust],RelatedRule.rField[i][k + SPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "PROT":
+			    if( isMatchPROT(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;
+			case "FLAG":
+			    //System.out.println(RelatedRule.rField[i][k-7] + " " + RelatedRule.rField[i][k-6]+" "+RelatedRule.rField[i][k-5]+" "+RelatedRule.rField[i][k-4 + SPadjust]+" "+RelatedRule.rField[i][k-3 + SPadjust + DPadjust]+" "+RelatedRule.rField[i][k-2 + SPadjust + SPadjust]);
+			    if( isMatchFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],hField[k-3]) ){
+				if(k == 3 ){
+				    eval[i]++;
+				    break outside;
+				}
+			    }
+			    else
+				continue outside;
+			    break;		    		    
+			}
 		    }
+
 		}
 	    }
 	    break;	    
@@ -457,7 +1257,7 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	else {
 	    if( (header.equals("0") && rule.equals("0x0000/0x0200") ) || ( header.equals("4294967295") && rule.equals("0x1000/0x1000") ) ) //acl_seed
 		return true;
-	    else if( (header.equals("0") && rule.equals("0x0000/0xff00") ) || (header.equals("4294967295") && ( rule.equals("0x0400/0x0400") || rule.equals("0x0100/0x0100") ) ) || (header.equals("33559040") && rule.equals("0x0400/0x0400") ) || (header.equals("67109888") && rule.equals("0x0200/0x1200") ) )//fw_seed
+	    else if( (header.equals("0") && rule.equals("0x0000/0xff00") ) || (header.equals("4294967295") && ( rule.equals("0x0400/0x0400") || rule.equals("0x0100/0x0100") ) ) /*|| (header.equals("33559040") && rule.equals("0x0400/0x0400") ) || (header.equals("67109888") && rule.equals("0x0200/0x1200") )*/ )//fw_seed
 		return true;
 	    else if( (header.equals("4294967295") && rule.equals("0x0200/0x0200") ) )//ipc_seed
 		return true;
@@ -472,4 +1272,3 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
     }
 
 }
-
