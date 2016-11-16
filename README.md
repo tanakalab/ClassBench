@@ -68,8 +68,11 @@ git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレ
 
 ※パラメーターファイル  
 (acl1_seed　acl3_seed　acl5_seed　fw2_seed　fw4_seed　ipc1_seed　acl2_seed　acl4_seed　fw1_seed　fw3_seed　fw5_seed　ipc2_seed)  
+
 ※パケット数はルール数の何倍のパケットが欲しいのかを指定する．  
 
+※フィールド  
+(SA(source address)　DA(destination address)　SP(source port)　DP(destination port)　PROT(protocol)　FLAG(flags))  
 
 コマンド  
 
@@ -108,7 +111,7 @@ $ sh EvalZOMFieldList.sh 100 3 acl1_seed 1 Rule Header 0.5
 $ sh EvalZOMList.sh 100 3 acl1_seed 1 Rule Header 0.5
   
   
- 7. AdjacencyList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(1以上の整数),ルールファイル名,評価型(Accept)の割合を入力することで生成される．  
+ 7. AdjacencyList.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(1以上の整数),ルールファイル名,評価型(Accept)の割合を入力することで生成される．  
  例）  
-$ sh AdjacencyList.sh 100 6 acl1_seed 1 Rule 0.5
+$ sh AdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule 0.5
  
