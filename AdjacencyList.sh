@@ -98,6 +98,7 @@ case "$#" in
     "10") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1 $2 $3 $4 $5
 	  ;;
     "11") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1 $2 $3 $4 $5 $6
+	  ;;
 esac
 
 rm a

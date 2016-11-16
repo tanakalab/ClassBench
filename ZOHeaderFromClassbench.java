@@ -4,11 +4,17 @@ import java.util.*;
 public class ZOHeaderFromClassbench {
     public static void main(String[] args){
 
-	if (args.length != 2) {
-	    System.out.println("Arguments Error!\nUsage: $ java ZOMHeaderFromClassbench <headerlist> <outputfile>");
+	if (args.length < 3 || args.length > 8 ) {
+	    System.out.println("Arguments Error!\nUsage: $ java ZOHeaderFromClassbench <headerlist> <outputfile> [fields] ");
 	    System.exit(1);
 	}
-	
+	for(int i = 2; i < args.length; i++){
+	    if( !(args[i].equals("SA") ||  args[i].equals("DA") ||  args[i].equals("SP") ||  args[i].equals("DP") ||  args[i].equals("PROT") ||  args[i].equals("FLAG") ) ){
+		System.out.println("Arguments Error! : " + args[i]  + "\nSelect field arguments in SA,DA,SP,DP,PROT and FLAG");
+		System.exit(1);
+	    }
+	}
+
 	try{
 	    List<String> origin_list = new ArrayList<String>();
 	    File input = new File(args[0]);
@@ -16,71 +22,199 @@ public class ZOHeaderFromClassbench {
 	    File output = new File(args[1]);
 	    BufferedWriter bw = new BufferedWriter(new FileWriter(output));//出力ファイル
 	    String rule;
-	    String SA;//0,1,*の送信元アドレス
-	    String DA;//0,1,*の送信先アドレス
-	    String sport;
-	    String dport;
-	    String promask;//プロトコルとマスク
-	    String flagmask;//フラグとマスク
-	    
-	    while((rule = br.readLine()) != null){
-		String[] result = rule.split("\\s+|\\t+");
-		 
-		// StringBuilder sb = new StringBuilder(result[0]);
-		// sb.deleteCharAt(0);
-		// result[0]=sb.toString();
+	    String ZO = "",x = "";
 
-		switch(result.length){
-		case 1:
-		    SA = tenTotwo(Long.parseLong(result[0]),32);		     
-		    origin_list.add( SA );
-		    break;
-		case 2:
-		    SA = tenTotwo(Long.parseLong(result[0]),32);
-		    DA = tenTotwo(Long.parseLong(result[1]),32);
-		    origin_list.add( SA + " " + DA);
-		    break;
-		case 3:
-		    SA = tenTotwo(Long.parseLong(result[0]),32);
-		    DA = tenTotwo(Long.parseLong(result[1]),32);
-		    sport = tenTotwo(Long.parseLong(result[2]),16);
-		    origin_list.add( SA + " " + DA + " " + sport);
-		    break;
-		case 4:
-		    SA = tenTotwo(Long.parseLong(result[0]),32);
-		    DA = tenTotwo(Long.parseLong(result[1]),32);
-		    sport = tenTotwo(Long.parseLong(result[2]),16);
-		    dport = tenTotwo(Long.parseLong(result[3]),16);
-		    origin_list.add( SA + " " + DA + " " + sport + " " + dport);
-		    break;
-		case 5:
-		    SA = tenTotwo(Long.parseLong(result[0]),32);
-		    DA = tenTotwo(Long.parseLong(result[1]),32);
-		    sport = tenTotwo(Long.parseLong(result[2]),16);
-		    dport = tenTotwo(Long.parseLong(result[3]),16);
-		    promask = tenTotwo(Long.parseLong(result[4]),8);
-		    origin_list.add( SA + " " + DA + " " + sport + " " + dport + " " + promask);
-		    break;
-		case 6:
-		    SA = tenTotwo(Long.parseLong(result[0]),32);
-		    DA = tenTotwo(Long.parseLong(result[1]),32);
-		    sport = tenTotwo(Long.parseLong(result[2]),16);
-		    dport = tenTotwo(Long.parseLong(result[3]),16);
-		    promask = tenTotwo(Long.parseLong(result[4]),8);
-		    flagmask = tenTotwo(Long.parseLong(result[5]),32);
-		    flagmask = flagmask.substring(0,16);
-		    origin_list.add( SA + " " + DA + " " + sport + " " + dport + " " + promask + " " + flagmask);
-		    break;
-		}
-	    }
+	    
+	     while((rule = br.readLine()) != null){
+		 String[] result = rule.split("\\s+|\\t+");
+		 
+		 switch(args.length){
+		 case 3:
+		     System.out.println(args[2]);
+		     switch(args[2]){
+		     case "SA":
+			 ZO = tenTotwo(Long.parseLong(result[0]),32);		     
+			 break;
+		     case "DA":
+			 ZO = tenTotwo(Long.parseLong(result[0]),32);
+			 break;
+		     case "SP":
+			 ZO = tenTotwo(Long.parseLong(result[0]),16);
+			 break;
+		     case "DP":
+			 ZO = tenTotwo(Long.parseLong(result[0]),16);
+			 break;
+		     case "PROT":
+			 ZO = tenTotwo(Long.parseLong(result[0]),8);
+			 break;
+		     }
+		     origin_list.add( ZO );
+		     break;
+		     
+		 case 4:
+		     for(int i = 2; i < 4 ;i++){
+			switch(args[i]){
+			case "SA":			    
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "DA":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "SP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "DP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "PROT":
+			    x = tenTotwo(Long.parseLong(result[i-2]),8);
+			    break;
+			case "FLAG":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    x = x.substring(0,16);
+			    break;
+			}
+			if(i == 2)
+			    ZO = x;
+			else
+			    ZO += " " + x;
+		     }
+		     origin_list.add( ZO );
+		     break;
+		     
+		 case 5:
+		     for(int i = 2; i < 5 ;i++){
+			switch(args[i]){
+			case "SA":			    
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "DA":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "SP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "DP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "PROT":
+			    x = tenTotwo(Long.parseLong(result[i-2]),8);
+			    break;
+			case "FLAG":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    x = x.substring(0,16);
+			    break;
+			}
+			if(i == 2)
+			    ZO = x;
+			else
+			    ZO += " " + x;
+		     }
+		     origin_list.add( ZO );
+		     break;
+		     
+		 case 6:
+		     for(int i = 2; i < 6 ;i++){
+			switch(args[i]){
+			case "SA":			    
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "DA":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "SP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "DP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "PROT":
+			    x = tenTotwo(Long.parseLong(result[i-2]),8);
+			    break;
+			case "FLAG":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    x = x.substring(0,16);
+			    break;
+			}
+			if(i == 2)
+			    ZO = x;
+			else
+			    ZO += " " + x;
+		     }
+		     origin_list.add( ZO );
+		     break;
+		     
+		 case 7:
+		     for(int i = 2; i < 7 ;i++){
+			switch(args[i]){
+			case "SA":			    
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "DA":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "SP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "DP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "PROT":
+			    x = tenTotwo(Long.parseLong(result[i-2]),8);
+			    break;
+			case "FLAG":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    x = x.substring(0,16);
+			    break;
+			}
+			if(i == 2)
+			    ZO = x;
+			else
+			    ZO += " " + x;
+		     }
+		     origin_list.add( ZO );
+		     break;
+		     
+		 case 8:
+		     for(int i = 2; i < 8 ;i++){
+			switch(args[i]){
+			case "SA":			    
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "DA":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    break;
+			case "SP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "DP":
+			    x = tenTotwo(Long.parseLong(result[i-2]),16);
+			    break;
+			case "PROT":
+			    x = tenTotwo(Long.parseLong(result[i-2]),8);
+			    break;
+			case "FLAG":
+			    x = tenTotwo(Long.parseLong(result[i-2]),32);
+			    x = x.substring(0,16);
+			    break;
+			}
+			if(i == 2)
+			    ZO = x;
+			else
+			    ZO += " " + x;
+		     }
+		     origin_list.add( ZO );
+		     break;
+		 }
+	     }
 	     
-	    for(String ZO : origin_list){//0,1のリストの表示
-		//System.out.println(ZOM);
-		bw.write(ZO);
-		bw.newLine();
-	    }	     
-	    br.close();
-	    bw.close();
+	     for(String variable : origin_list){//0,1のリストの表示
+		 //System.out.println(ZO);
+		 bw.write( variable );
+		 bw.newLine();
+	     }	     
+	     br.close();
+	     bw.close();
 	}catch(FileNotFoundException e){
 	    System.out.println(e);
 	}catch(IOException e){
