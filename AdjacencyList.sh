@@ -1,4 +1,3 @@
-
 ruleNum=`expr $# - 4`
 seed_file=`expr $# - 3`
 headNum=`expr $# - 2`
@@ -7,13 +6,10 @@ pro=$#
 
 cd db_generator
 eval ./db_generator -bc ../parameter_files/'$'$seed_file '$'$ruleNum 2 0.5 -0.1 MyFilters
-#echo "input Header number"
-# read HEADERNUM
+
 cd ../trace_generator
 eval ./trace_generator 1 0.1 '$'$headNum ../db_generator/MyFilters
 cd ..
-#echo "input rule name"
-# read RULENAME
 
 if [ $1 == "SA" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1}' > x
@@ -87,8 +83,6 @@ elif [ $1 == "FLAG" ] || [ $2 == "FLAG" ] || [ $3 == "FLAG" ] || [ $4 == "FLAG" 
     exit
 fi
 
-#echo "input probability of evaluation type (0 <= p <=1)"
-# read PROBABILITY
 javac AddEtype.java
 eval  java AddEtype x w '$'{$pro}
 javac ClassBenchToAdjacencyList.java
