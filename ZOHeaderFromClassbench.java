@@ -30,7 +30,6 @@ public class ZOHeaderFromClassbench {
 		 
 		 switch(args.length){
 		 case 3:
-		     System.out.println(args[2]);
 		     switch(args[2]){
 		     case "SA":
 			 ZO = tenTotwo(Long.parseLong(result[0]),32);		     

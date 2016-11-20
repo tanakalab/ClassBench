@@ -86,5 +86,7 @@ fi
 eval mv x '$'{$ruleName}
 eval mv c '$'{$headerName}
 
+if [ ! $# == 6 ] ; then
 rm a
 rm y
+fi

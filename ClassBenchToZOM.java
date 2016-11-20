@@ -5,10 +5,17 @@ import java.util.*;
 public class ClassBenchToZOM {//ClassBench形式のルールリストを0,1,*のルールリストに変える
     public static void main(String[] args){
 	
-	if (args.length != 2) {
-	    System.out.println("Arguments Error!\nUsage: $ java ClassBenchToZOM <rulelist> <outputfile>");
+	if (args.length < 3 || args.length > 8 ) {
+	    System.out.println("Arguments Error!\nUsage: $ java ClassBenchToZOM <rulelist> <outputfile> [fields] ");
 	    System.exit(1);
 	}
+	for(int i = 2; i < args.length; i++){
+	    if( !(args[i].equals("SA") ||  args[i].equals("DA") ||  args[i].equals("SP") ||  args[i].equals("DP") ||  args[i].equals("PROT") ||  args[i].equals("FLAG") ) ){
+		System.out.println("Arguments Error! : " + args[i]  + "\nSelect field arguments in SA,DA,SP,DP,PROT and FLAG");
+		System.exit(1);
+	    }
+	}
+	
 	try{
 	    List<String> origin_list = new ArrayList<String>();
 	    File input = new File(args[0]);
@@ -16,86 +23,239 @@ public class ClassBenchToZOM {//ClassBench形式のルールリストを0,1,*の
 	    File output = new File(args[1]);
 	    BufferedWriter bw = new BufferedWriter(new FileWriter(output));//出力ファイル
 	    String rule;
-	    String SA;//0,1,*の送信元アドレス
-	    String DA;//0,1,*の送信先アドレス
+	    List<String> ZOM = new ArrayList<String>();
+	    List<String> x = new ArrayList<String>();
+	    List<String> superZOM = new ArrayList<String>();
+	    int SPadjust = Arrays.asList(args).contains("SP") ? 2 : 0;
+	    int DPadjust = Arrays.asList(args).contains("DP") ? 2 : 0;
 	    int[] sport = new int[2];
 	    int[] dport = new int[2];
-	    String promask;//プロトコルとマスク
-	    String flagmask;//フラグとマスク
-	    
+	    			    
 	    while((rule = br.readLine()) != null){
-		List<String> slist = new ArrayList<String>();
-		List<String> dlist = new ArrayList<String>();
+		
 		String[] result = rule.split("\\s+|\\t+");
-		StringBuilder sb = new StringBuilder(result[0]);
-		sb.deleteCharAt(0);
-		result[0]=sb.toString();
-
-		switch(result.length){
-		case 1:
-		    SA = CIDRToZOM(result[0]);//0,1,*の送信元アドレス		    
-
-		    origin_list.add( SA );
-
+		if( Arrays.asList(args).contains("SA") ){
+		    StringBuilder sb = new StringBuilder(result[0]);
+		    sb.deleteCharAt(0);
+		    result[0]=sb.toString();
+		}
+		switch(args.length){
+		case 3:
+		    ZOM.clear();
+		    switch(args[2]){
+		    case "SA":
+			ZOM.add( CIDRToZOM(result[0]) );//0,1,*の送信元アドレス		    
+			break;
+		    case "DA":
+			ZOM.add( CIDRToZOM(result[0]) );//0,1,*の送信先アドレス
+			break;
+		    case "SP":
+			sport[0] = Integer.parseInt(result[0]);
+			sport[1] = Integer.parseInt(result[2]);
+			ZOM = RangeToZOM.rangeTozom(16,0,65535,sport[0],sport[1]);//送信元ポートレンジ（0,1,*のリスト）
+			break;
+		    case "DP":
+			dport[0] = Integer.parseInt(result[0]);
+			dport[1] = Integer.parseInt(result[2]);
+			ZOM = RangeToZOM.rangeTozom(16,0,65535,dport[0],dport[1]);//送信先ポートレンジ（0,1,*のリスト)
+			break;
+		    case "PROT":
+			ZOM.add( prmsTozom(result[0]) );//プロトコルとマスク
+			break;
+		    }
+		    for(String list : ZOM)
+			origin_list.add( list );
+		    break;		    
+		    
+		case 4:
+		    for(int i = 2; i < 4 ;i++){
+			superZOM.clear();
+			x.clear();
+			switch(args[i]){
+			case "SA":
+			    x.add( CIDRToZOM(result[i-2]) );//0,1,*の送信元アドレス
+			    break;
+			case "DA":
+			    x.add( CIDRToZOM(result[i-2]) );//0,1,*の送信先アドレス
+			    break;
+			case "SP":
+			    sport[0] = Integer.parseInt(result[i-2]);
+			    sport[1] = Integer.parseInt(result[i]);
+			    x = RangeToZOM.rangeTozom(16,0,65535,sport[0],sport[1]);//送信元ポートレンジ（0,1,*のリスト）
+			    break;
+			case "DP":
+			    dport[0] = Integer.parseInt(result[i-2 + SPadjust]);
+			    dport[1] = Integer.parseInt(result[i + SPadjust]);
+			    x = RangeToZOM.rangeTozom(16,0,65535,dport[0],dport[1]);//送信先ポートレンジ（0,1,*のリスト)
+			    break;
+			case "PROT":
+			    x.add( prmsTozom(result[i-2 + SPadjust + DPadjust]) );//プロトコルとマスク
+			    break;
+			case "FLAG":
+			    x.add( fgmsTozom(result[i-2 + SPadjust + DPadjust]) );//フラグとマスク
+			    break;
+			}
+			if(i == 2)
+			    ZOM.addAll( x );
+			else{
+			    for(String str1 : ZOM){
+				for(String str2 : x){
+				    superZOM.add( str1 + " " + str2 );
+				}
+			    }
+			    ZOM.clear();
+			    if(i!=3)
+				ZOM.addAll( superZOM );
+			}	
+		    }
+		    for(String list : superZOM)
+			origin_list.add( list );
 		    break;
 		    
-		case 2:
-		    SA = CIDRToZOM(result[0]);//0,1,*の送信元アドレス
-		    DA = CIDRToZOM(result[1]);//0,1,*の送信先アドレス
-		   
-		    origin_list.add( SA + " " + DA );
-		       		    
-		    break;
-			
 		case 5:
-		    SA = CIDRToZOM(result[0]);//0,1,*の送信元アドレス
-		    DA = CIDRToZOM(result[1]);//0,1,*の送信先アドレス
-		    sport[0] = Integer.parseInt(result[2]);
-		    sport[1] = Integer.parseInt(result[4]);
-		    slist = RangeToZOM.rangeTozom(16,0,65535,sport[0],sport[1]);//送信元ポートレンジ（0,1,*のリスト）
-
-		    for(String sp : slist){		    
-			origin_list.add( SA + " " + DA + " " + sp );
-		    }
-		    
-		    break;
-		    
-		case 8:		    
-		    SA = CIDRToZOM(result[0]);//0,1,*の送信元アドレス
-		    DA = CIDRToZOM(result[1]);//0,1,*の送信先アドレス
-		    sport[0] = Integer.parseInt(result[2]);
-		    sport[1] = Integer.parseInt(result[4]);
-		    dport[0] = Integer.parseInt(result[5]);
-		    dport[1] = Integer.parseInt(result[7]);
-		    slist = RangeToZOM.rangeTozom(16,0,65535,sport[0],sport[1]);//送信元ポートレンジ（0,1,*のリスト）
-		    dlist = RangeToZOM.rangeTozom(16,0,65535,dport[0],dport[1]);//送信先ポートレンジ（0,1,*のリスト）
-		    
-		    for(String sp : slist){
-			for(String dp : dlist){
-			    origin_list.add( SA + " " + DA + " " + sp + " " + dp );
+		    for(int i = 2; i < 5 ;i++){
+			superZOM.clear();			
+			x.clear();
+			switch(args[i]){
+			case "SA":
+			    x.add( CIDRToZOM(result[i-2]) );//0,1,*の送信元アドレス
+			    break;
+			case "DA":
+			    x.add( CIDRToZOM(result[i-2]) );//0,1,*の送信先アドレス
+			    break;
+			case "SP":
+			    sport[0] = Integer.parseInt(result[i-2]);
+			    sport[1] = Integer.parseInt(result[i]);
+			    x = RangeToZOM.rangeTozom(16,0,65535,sport[0],sport[1]);//送信元ポートレンジ（0,1,*のリスト）
+			    break;
+			case "DP":
+			    dport[0] = Integer.parseInt(result[i-2 + SPadjust]);
+			    dport[1] = Integer.parseInt(result[i + SPadjust]);
+			    x = RangeToZOM.rangeTozom(16,0,65535,dport[0],dport[1]);//送信先ポートレンジ（0,1,*のリスト)
+			    break;
+			case "PROT":
+			    x.add( prmsTozom(result[i-2 + SPadjust + DPadjust]) );//プロトコルとマスク
+			    break;
+			case "FLAG":
+			    x.add( fgmsTozom(result[i-2 + SPadjust + DPadjust]) );//フラグとマスク
+			    break;
+			}
+			if(i == 2)
+			    ZOM.addAll( x );
+			else{
+			    for(String str1 : ZOM){
+				for(String str2 : x){
+				    superZOM.add( str1 + " " + str2 );
+				}
+			    }
+			    ZOM.clear();
+			    if(i!=4)
+				ZOM.addAll( superZOM );
 			}
 		    }
+		    for(String list : superZOM)
+			origin_list.add( list );
 		    break;
 		    
-		case 9:
-		    SA = CIDRToZOM(result[0]);//0,1,*の送信元アドレス
-		    DA = CIDRToZOM(result[1]);//0,1,*の送信先アドレス
-		    sport[0] = Integer.parseInt(result[2]);
-		    sport[1] = Integer.parseInt(result[4]);
-		    dport[0] = Integer.parseInt(result[5]);
-		    dport[1] = Integer.parseInt(result[7]);
-		    slist = RangeToZOM.rangeTozom(16,0,65535,sport[0],sport[1]);//送信元ポートレンジ（0,1,*のリスト）
-		    dlist = RangeToZOM.rangeTozom(16,0,65535,dport[0],dport[1]);//送信先ポートレンジ（0,1,*のリスト）
-		    promask = prmsTozom(result[8]);//プロトコルとマスク
-		    
-		    for(String sp : slist){
-			for(String dp : dlist){
-			    origin_list.add( SA + " " + DA + " " + sp + " " + dp +  " " + promask );
+		case 6:		    
+		    for(int i = 2; i < 6 ;i++){
+			superZOM.clear();
+			x.clear();
+			switch(args[i]){
+			case "SA":
+			    x.add( CIDRToZOM(result[i-2]) );//0,1,*の送信元アドレス
+			    break;
+			case "DA":
+			    x.add( CIDRToZOM(result[i-2]) );//0,1,*の送信先アドレス
+			    break;
+			case "SP":
+			    sport[0] = Integer.parseInt(result[i-2]);
+			    sport[1] = Integer.parseInt(result[i]);
+			    x = RangeToZOM.rangeTozom(16,0,65535,sport[0],sport[1]);//送信元ポートレンジ（0,1,*のリスト）
+			    break;
+			case "DP":
+			    dport[0] = Integer.parseInt(result[i-2 + SPadjust]);
+			    dport[1] = Integer.parseInt(result[i + SPadjust]);
+			    x = RangeToZOM.rangeTozom(16,0,65535,dport[0],dport[1]);//送信先ポートレンジ（0,1,*のリスト)
+			    break;
+			case "PROT":
+			    x.add( prmsTozom(result[i-2 + SPadjust + DPadjust]) );//プロトコルとマスク
+			    break;
+			case "FLAG":
+			    x.add( fgmsTozom(result[i-2 + SPadjust + DPadjust]) );//フラグとマスク
+			    break;
 			}
+			if(i == 2)
+			    ZOM.addAll( x );
+			else{
+			    for(String str1 : ZOM){
+				for(String str2 : x){
+				    superZOM.add( str1 + " " + str2 );
+				}
+			    }
+			    ZOM.clear();
+			    if(i!=5)
+				ZOM.addAll( superZOM );
+			}
+		    }
+		    for(String list : superZOM)
+			origin_list.add( list );
+		    break;
+		    
+		case 7:
+		    for(int i = 2; i < 7 ;i++){
+		    	superZOM.clear();
+		    	x.clear();
+		    	//	ZOM.clear();
+		    	switch(args[i]){
+		    	case "SA":
+		    	    x.add( CIDRToZOM(result[i-2]) );//0,1,*の送信元アドレス
+		    	    break;
+		    	case "DA":
+		    	    x.add( CIDRToZOM(result[i-2]) );//0,1,*の送信先アドレス
+		    	    break;
+		    	case "SP":
+		    	    sport[0] = Integer.parseInt(result[i-2]);
+		    	    sport[1] = Integer.parseInt(result[i]);
+		    	    x = RangeToZOM.rangeTozom(16,0,65535,sport[0],sport[1]);//送信元ポートレンジ（0,1,*のリスト）
+		    	    break;
+		    	case "DP":
+		    	    dport[0] = Integer.parseInt(result[i-2 + SPadjust]);
+		    	    dport[1] = Integer.parseInt(result[i + SPadjust]);
+		    	    x = RangeToZOM.rangeTozom(16,0,65535,dport[0],dport[1]);//送信先ポートレンジ（0,1,*のリスト)
+		    	    break;
+		    	case "PROT":
+		    	    x.add( prmsTozom(result[i-2 + SPadjust + DPadjust]) );//プロトコルとマスク
+		    	    break;
+		    	case "FLAG":
+		    	    x.add( fgmsTozom(result[i-2 + SPadjust + DPadjust]) );//フラグとマスク
+		    	    break;
+		    	}
+		    	if(i == 2)
+		    	    ZOM.addAll( x );
+			
+		    	else{								
+		    	    for(String str1 : ZOM){
+		    		for(String str2 : x){
+		    		    superZOM.add( str1 + " " + str2 );
+		    		}
+		    	    }
+		    	    ZOM.clear();
+		    	    if(i!=6)
+		    		ZOM.addAll( superZOM );
+		    	}
+		    }
+		    for(String list : superZOM){
+		    	origin_list.add( list );
 		    }
 		    break;
 		    
-		case 10:
+		    
+		case 8:
+		    String SA,DA,promask,flagmask;
+		    List<String> slist = new ArrayList<String>();
+		    List<String> dlist = new ArrayList<String>();
+		    
 		    SA = CIDRToZOM(result[0]);//0,1,*の送信元アドレス
 		    DA = CIDRToZOM(result[1]);//0,1,*の送信先アドレス
 		    sport[0] = Integer.parseInt(result[2]);
@@ -117,10 +277,8 @@ public class ClassBenchToZOM {//ClassBench形式のルールリストを0,1,*の
 		}
 	    }
 
-	    
-	    for(String ZOM : origin_list){//0,1,*のリストの表示
-		//System.out.println(ZOM);
-		bw.write(ZOM);
+	    for(String str : origin_list){//0,1,*のリストの表示
+		bw.write(str);
 		bw.newLine();
 	    }
 	    br.close();

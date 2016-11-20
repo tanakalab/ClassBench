@@ -117,6 +117,8 @@ case "$#" in
 esac
 
 rm x
-rm y
-rm a
 rm c
+if [ ! $# == 6 ] ; then
+    rm a
+    rm y
+fi
