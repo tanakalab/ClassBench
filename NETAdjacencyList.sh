@@ -1,8 +1,7 @@
-ruleNum=`expr $# - 4`
-seed_file=`expr $# - 3`
-headNum=`expr $# - 2`
-ruleName=`expr $# - 1`
-pro=$#
+ruleNum=`expr $# - 3`
+seed_file=`expr $# - 2`
+headNum=`expr $# - 1`
+ruleName=$#
 
 cd db_generator
 eval ./db_generator -bc ../parameter_files/'$'$seed_file '$'$ruleNum 2 0.5 -0.1 MyFilters
@@ -83,29 +82,23 @@ elif [ $1 == "FLAG" ] || [ $2 == "FLAG" ] || [ $3 == "FLAG" ] || [ $4 == "FLAG" 
     exit
 fi
 
-javac AddEtype.java
-eval  java AddEtype x w '$'{$pro}
-javac ClassBenchToAdjacencyList.java
+javac NETClassBenchToAdjacencyList.java
 case "$#" in
-    "6") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1
+    "6") eval java NETClassBenchToAdjacencyList x c '$'{$ruleName} $1
 	 ;;
-    "7") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1 $2
+    "7") eval java NETClassBenchToAdjacencyList x c '$'{$ruleName} $1 $2
 	 ;;
-    "8") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1 $2 $3
+    "8") eval java NETClassBenchToAdjacencyList x c '$'{$ruleName} $1 $2 $3
 	 ;;
-    "9") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1 $2 $3 $4
+    "9") eval java NETClassBenchToAdjacencyList x c '$'{$ruleName} $1 $2 $3 $4
 	 ;;
-    "10") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1 $2 $3 $4 $5
+    "10") eval java NETClassBenchToAdjacencyList x c '$'{$ruleName} $1 $2 $3 $4 $5
 	  ;;
-    "11") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1 $2 $3 $4 $5 $6
+    "11") eval java NETClassBenchToAdjacencyList x c '$'{$ruleName} $1 $2 $3 $4 $5 $6
 	  ;;
 esac
 
-
+rm a
 rm x
+rm y
 rm c
-if [ ! $# == 6 ] ; then
-    rm a
-    rm y
-fi
-rm w
