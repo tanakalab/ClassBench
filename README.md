@@ -17,8 +17,10 @@ git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレ
 
 $ git clone git@github.com:tanakalab/ClassBench.git  
 $ cd ClassBench    
-$ sh compile.sh   
-
+$ sh compile.sh  
+    
+    
+    
 1. ClassBenchで生成されたルールセットとパケットを出力する．     
 例）  
 ルール   : @131.10.42.40/32　　95.184.130.35/32　　0 : 65535　　1724 : 1724　　0x06/0xFF　　0x1000/0x1000       
@@ -26,9 +28,13 @@ $ sh compile.sh
 　  
 classbench.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
-$ sh classbench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule Header  
-  
-  
+$ sh classbench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule Header    　
+   　　
+   　　　
+   　　
+   　　
+    　　
+　　　　    　　
 2. ClassBenchで生成されたルールセットとパケットをフィールドごとにポートはレンジルールでその他は0,1,＊形式で生成する．  
 例)
 <p>ルール   : 0110010011011111011111**********　0-65535　61900-61909　00000110</p>  
@@ -36,9 +42,11 @@ $ sh classbench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule Header
     
  ZOMRangeFieldList.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．  
  例)  
-$ sh ZOMRangeFieldList.sh SA SP DP PROT 400 fw1_seed 1 Rule Header    
-  
-  
+$ sh ZOMRangeFieldList.sh SA SP DP PROT 400 fw1_seed 1 Rule Header     　　
+　　   　　　
+    　　　　　
+    　　　　　
+    　　　　　
 3. ClassBenchで生成されたルールセットとパケットをフィールドごとに0,1,＊形式で生成する．       
 例)
 <p>ルール   : 0010010101010010011111000011011*　10011111110001111111001111110001　****************</p>     
@@ -46,9 +54,11 @@ $ sh ZOMRangeFieldList.sh SA SP DP PROT 400 fw1_seed 1 Rule Header
     
  ZOMFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．   
  例)  
-$ sh ZOMFieldList.sh SA DA SP 1000 acl4_seed 1 Rule Header   
-   
-    
+$ sh ZOMFieldList.sh SA DA SP 1000 acl4_seed 1 Rule Header     　　
+  　　　　  　　
+　　　 　   　　
+     　　　　　
+　     　　　　
 4. ClassBenchで生成されたルールリストとパケットを0,1,＊形式で生成する．  
 例）
 <p>ルール   : 01110101111011110011101001010000****************00010011100011**00000110</p>
@@ -56,9 +66,11 @@ $ sh ZOMFieldList.sh SA DA SP 1000 acl4_seed 1 Rule Header
      
  ZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．   
  例)  
-$ sh ZOMList.sh DA SP DP PROT 500 ipc1_seed 1 Rule Header   
-      
-    
+$ sh ZOMList.sh DA SP DP PROT 500 ipc1_seed 1 Rule Header     　　　　　　
+     　　　　　　
+       　　　　
+         　　　　
+     　　　　　　　
 5. ClassBenchで生成されたルールセットとパケットをフィールドごとに0,1,＊形式で評価パケット数と評価型を付与して生成する．    　
 　(ルールの末尾のフィールドは評価パケット数)    
 例)
@@ -67,9 +79,11 @@ $ sh ZOMList.sh DA SP DP PROT 500 ipc1_seed 1 Rule Header
   
  EvalZOMFieldList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
  例)  
-$ sh EvalZOMFieldList.sh 100 3 acl1_seed 1 Rule Header 0.5   
-   
-   
+$ sh EvalZOMFieldList.sh 100 3 acl1_seed 1 Rule Header 0.5      　　　　　　
+　　　　　　　　
+    　　　　　　
+     　　　　　　　
+    　　　　　　　　
 6. ClassBenchで生成されたルールセットとパケットを0,1,＊形式で評価パケット数と評価型を付与して生成する．   
  (ルールの末尾のフィールドは評価パケット数)    
 例）
@@ -78,9 +92,11 @@ $ sh EvalZOMFieldList.sh 100 3 acl1_seed 1 Rule Header 0.5
   
  EvalZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
  例)  
-$ sh EvalZOMList.sh 100 3 acl1_seed 1 Rule Header 0.5   
-   
-   
+$ sh EvalZOMList.sh 100 3 acl1_seed 1 Rule Header 0.5     　　　　　　
+　　　　　　　
+    　　　　　　　
+    　　　　　　　
+    　　　　　　　　
 7. ClassBenchで生成されたルールセットとパケットを用いた隣接リスト形式で生成する．    
 例）  
 1    
