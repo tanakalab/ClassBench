@@ -98,7 +98,9 @@ case "$#" in
 	  ;;
 esac
 
-rm a
 rm x
-rm y
 rm c
+if [ ! $# == 5 ] ; then
+    rm a
+    rm y
+fi
