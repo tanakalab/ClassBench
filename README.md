@@ -92,7 +92,7 @@ $ sh EvalZOMFieldList.sh SA DA SP 1000 fw3_seed 2 Rule Header 0.7      　　　
   
  EvalZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル、パケット数(１以上の整数),ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
  例)  
-$ sh EvalZOMList.sh 100 3 fw5_seed 1 Rule Header 0.3     　　　　　　
+$ sh EvalZOMList.sh SA DA DP 100 fw5_seed 1 Rule Header 0.3     　　　　　　
 　　　　　　　
     　　　　　　　
     　　　　　　　
