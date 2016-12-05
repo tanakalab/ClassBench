@@ -83,9 +83,7 @@ elif [ $1 == "FLAG" ] || [ $2 == "FLAG" ] || [ $3 == "FLAG" ] || [ $4 == "FLAG" 
     exit
 fi
 
-javac AddEtype.java
 eval  java AddEtype x w '$'{$pro}
-javac ClassBenchToAdjacencyList.java
 case "$#" in
     "6") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1
 	 ;;
