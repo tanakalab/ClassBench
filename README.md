@@ -11,12 +11,14 @@ ClassBenchから下記の1~7の形式の中の一つを生成することがで�
 
 git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
 作成されたディレクトリに移動しdownloads.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
+compile.shによってそれぞれのプログラムをコンパイルをする．  
 そして後は自分の生成したいルールセットに合わせて下記の1~7のどれかのスクリプトを実行する．  
 
 コマンド  
 
 $ git clone git@github.com:tanakalab/ClassBench.git  
 $ cd ClassBench    
+$ sh downloads.sh   
 $ sh compile.sh  
     
     
