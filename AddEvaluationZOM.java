@@ -70,6 +70,7 @@ public class AddEvaluationZOM {//0,1,*のルールに評価パケット数を付
 	int rSize = fieldRule.size();	
 	int hSize = fieldHeader.size();
 	int[] eval = new int[rSize];//評価パケット数を格納する配列
+	HashMap<String,int> map = new HashMap<String,int>(); 
 	
 	List<String> rule = new ArrayList<String>();
 	List<String> header = new ArrayList<String>();
@@ -96,14 +97,19 @@ public class AddEvaluationZOM {//0,1,*のルールに評価パケット数を付
 	    header.add(sb.toString());
 	}
 	
-	for(int j=0; j < hSize; j++){
-	    for(int i=0; i < rSize; i++){
-		if( isMatch(rule.get(i),header.get(j),rule.get(0).length()) ){    
-		    eval[i]++;
-		    break;
+	    for(int j=0; j < hSize; j++){
+		if( map.containsKey(header.get(j)) ){		  
+		    eval[map.get(header.get(j))]++;
+		    continue;
+		}
+		for(int i=0; i < rSize; i++){
+		    if( isMatch(rule.get(i),header.get(j),rule.get(0).length()) ){    
+			map.put(header.get(j),i);
+			eval[i]++;
+			break;
+		    }
 		}
 	    }
-	}
 	
 	return eval;
     }
