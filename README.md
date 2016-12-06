@@ -112,7 +112,7 @@ $ sh AdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule 0.5
   
   
 ※パラメーターファイル  
-(acl1_seed　acl3_seed　acl5_seed　fw2_seed　fw4_seed　ipc1_seed　acl2_seed　acl4_seed　fw1_seed　fw3_seed　fw5_seed　ipc2_seed)  
+(acl1_seed　acl2_seed　acl3_seed　acl4_seed　acl5_seed　fw1_seed　fw2_seed　fw3_seed　fw4_seed　fw5_seed　ipc1_seed　ipc2_seed)  
 
 ※パケット数はルール数の何倍のパケットが欲しいのかを指定する．  
 
