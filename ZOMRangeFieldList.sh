@@ -95,6 +95,7 @@ elif [ $1 == "FLAG" ] || [ $2 == "FLAG" ] || [ $3 == "FLAG" ] || [ $4 == "FLAG" 
     exit
 fi
 
+javac ClassBenchToRange.java
 case "$#" in
     "6") eval java ClassBenchToRange x d $1
 	 ;;
@@ -110,6 +111,7 @@ case "$#" in
           ;;
 esac
 
+javac ZOHeaderFromClassbench.java
 case "$#" in
     "6") eval java ZOHeaderFromClassbench c '$'{$headerName} $1
 	 ;;
@@ -125,8 +127,11 @@ case "$#" in
 	  ;;
 esac
 
-#echo "$defaultRule//g\" < c > x"
-eval sed -e $defaultRule//g\" < d > x
+#echo 'hello!'
+
+eval sed -e $defaultRule//g\" < d > c #デフォルトルール消去
+sed '/^$/d' c > x #空行消去
+#awk '!Overlap[$0]++' x > d #重複消去
 eval mv x '$'{$ruleName}
 
 #rm x
