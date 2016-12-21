@@ -15,13 +15,13 @@ cd ..
 if [ $1 == "SA" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1}' > c
-    defaultRule=${defaultRule}\"s/\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*
+    defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
 fi
 
 if [ $1 == "DA" ]  ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $2}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $2}' > c
-    defaultRule=${defaultRule}\"s\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*
+    defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
 elif [ $2 == "DA" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $2}' > y
     paste x y > z
@@ -29,13 +29,13 @@ elif [ $2 == "DA" ] ; then
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $2}' > a
     paste c a > b
     mv b c
-    defaultRule=${defaultRule}\ \\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*
+    defaultRule="${defaultRule} \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
 fi
 
 if [ $1 == "SP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $3}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $3}' > c
-        defaultRule=${defaultRule}\"s/0-65535
+    defaultRule="${defaultRule}s/0-65535"
 elif [  $2 == "SP" ] || [ $3 == "SP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $3}' > y
     paste x y > z
@@ -43,13 +43,13 @@ elif [  $2 == "SP" ] || [ $3 == "SP" ] ; then
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $3}' > a
     paste c a > b
     mv b c
-    defaultRule=${defaultRule}\ 0-65535
+    defaultRule="${defaultRule} 0-65535"
 fi
 
 if [ $1 == "DP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $4}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $4}' > c
-    defaultRule=${defaultRule}\"s0-65535
+    defaultRule="${defaultRule}s/0-65535"
 elif [ $2 == "DP" ] || [ $3 == "DP" ] || [ $4 == "DP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $4}' > y
     paste x y > z
@@ -57,13 +57,13 @@ elif [ $2 == "DP" ] || [ $3 == "DP" ] || [ $4 == "DP" ] ; then
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $4}' > a
     paste c a > b
     mv b c
-    defaultRule=${defaultRule}\ 0-65535
+    defaultRule="${defaultRule} 0-65535"
 fi
 
 if [ $1 == "PROT" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $5}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $5}' > c
-    defaultRule=${defaultRule}\"s\\*\\*\\*\\*\\*\\*\\*\\*
+    defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*"
     if [ $2 == "FLAG" ] ; then
 	cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $6}' > y
 	paste x y > z
@@ -71,7 +71,7 @@ if [ $1 == "PROT" ] ; then
 	cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $6}' > a
 	paste c a > b
 	mv b c
-	defaultRule=${defaultRule}\ \\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*
+	defaultRule="${defaultRule} \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
     fi 
 elif [ $2 == "PROT" ] || [ $3 == "PROT" ] || [ $4 == "PROT" ] || [ $5 == "PROT" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $5}' > y
@@ -80,7 +80,7 @@ elif [ $2 == "PROT" ] || [ $3 == "PROT" ] || [ $4 == "PROT" ] || [ $5 == "PROT" 
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $5}' > a
     paste c a > b
     mv b c
-    defaultRule=${defaultRule}\ \\*\\*\\*\\*\\*\\*\\*\\*
+    defaultRule="${defaultRule} \*\*\*\*\*\*\*\*"
     if [ $3 == "FLAG" ] || [ $4 == "FLAG" ] || [ $5 == "FLAG" ] || [ $6 == "FLAG" ] ; then
 	cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $6}' > y
 	paste x y > z
@@ -88,7 +88,7 @@ elif [ $2 == "PROT" ] || [ $3 == "PROT" ] || [ $4 == "PROT" ] || [ $5 == "PROT" 
 	cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $6}' > a
 	paste c a > b
 	mv b c
-	defaultRule=${defaultRule}\ \\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*
+	defaultRule="${defaultRule} \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
     fi    
 elif [ $1 == "FLAG" ] || [ $2 == "FLAG" ] || [ $3 == "FLAG" ] || [ $4 == "FLAG" ] || [ $5 == "FLAG" ] ; then
     echo "error : FLAG needs PROT argument."
@@ -127,14 +127,12 @@ case "$#" in
 	  ;;
 esac
 
-#echo 'hello!'
-
-eval sed -e $defaultRule//g\" < d > c #デフォルトルール消去
+#echo " \"$defaultRule//g\" "
+sed -e "$defaultRule//g" < d > c #デフォルトルール消去
 sed '/^$/d' c > x #空行消去
 #awk '!Overlap[$0]++' x > d #重複消去
 eval mv x '$'{$ruleName}
 
-#rm x
 rm c
 rm d
 if [ ! $# == 6 ] ; then
