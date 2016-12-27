@@ -111,7 +111,7 @@ $ sh EvalZOMList.sh SA DA DP 100 fw5_seed 1 Rule Header 0.3     　　　　　�
 $ sh AdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule 0.5   
   
  例）  
-$ sh NETAdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1
+$ sh NETAdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule
   
 ※パラメーターファイル  
 (acl1_seed　acl2_seed　acl3_seed　acl4_seed　acl5_seed　fw1_seed　fw2_seed　fw3_seed　fw4_seed　fw5_seed　ipc1_seed　ipc2_seed)  
