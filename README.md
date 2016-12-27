@@ -106,10 +106,12 @@ $ sh EvalZOMList.sh SA DA DP 100 fw5_seed 1 Rule Header 0.3     　　　　　�
 0   
 3　4   　　
 
- AdjacencyList.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(1以上の整数),ルールファイル名,評価型(Accept)の割合を入力することで生成される．  
+ AdjacencyList.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(1以上の整数),ルールファイル名,評価型(Accept)の割合を入力することで生成される．ファイル名の先頭にNET(Non Evaluation Type)と書いてある物は評価型が付与されないルールを扱う．なのでNETと書いてある場合は評価型の割合は引数として渡さない．  
  例）  
-$ sh AdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule 0.5  
+$ sh AdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule 0.5   
   
+ 例）  
+$ sh NETAdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1
   
 ※パラメーターファイル  
 (acl1_seed　acl2_seed　acl3_seed　acl4_seed　acl5_seed　fw1_seed　fw2_seed　fw3_seed　fw4_seed　fw5_seed　ipc1_seed　ipc2_seed)  
