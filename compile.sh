@@ -19,3 +19,4 @@ javac AddEtype.java
 #7.ClassBenchで生成されたルールセットとパケットを用いた隣接リスト形式で生成する．
 javac AddEtype.java
 javac ClassBenchToAdjacencyList.java
+javac NETClassBenchToAdjacencyList.java

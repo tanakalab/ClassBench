@@ -97,11 +97,11 @@ fi
 
 #echo " \"$defaultRule++g\" "
 sed -e "$defaultRule;;g" < x > b #デフォルトルール消去
-sed '/^$/d' b > e #空行消去
+sed '/^$/d' b > x #空行消去
 #awk '!Overlap[$0]++' x > d #重複消去
 
 
-eval  java AddEtype e w '$'{$pro}
+eval  java AddEtype x w '$'{$pro}
 case "$#" in
     "6") eval java ClassBenchToAdjacencyList w c '$'{$ruleName} $1
 	 ;;
@@ -117,11 +117,11 @@ case "$#" in
 	  ;;
 esac
 
-#rm e
-#rm x
+rm x
 rm c
+rm w
 if [ ! $# == 6 ] ; then
     rm a
     rm y
 fi
-rm w
+
