@@ -95,7 +95,6 @@ elif [ $1 == "FLAG" ] || [ $2 == "FLAG" ] || [ $3 == "FLAG" ] || [ $4 == "FLAG" 
     exit
 fi
 
-javac ClassBenchToRange.java
 case "$#" in
     "6") eval java ClassBenchToRange x d $1
 	 ;;
@@ -111,7 +110,6 @@ case "$#" in
           ;;
 esac
 
-javac ZOHeaderFromClassbench.java
 case "$#" in
     "6") eval java ZOHeaderFromClassbench c '$'{$headerName} $1
 	 ;;
