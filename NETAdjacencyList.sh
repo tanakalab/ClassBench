@@ -94,15 +94,12 @@ elif [ $1 == "FLAG" ] || [ $2 == "FLAG" ] || [ $3 == "FLAG" ] || [ $4 == "FLAG" 
     exit
 fi
 
-cp x oooo
-
 #echo " \"$defaultRule++g\" "
 sed -e "$defaultRule;;g" < x > b #デフォルトルール消去
 sed '/^$/d' b > x #空行消去
 #awk '!Overlap[$0]++' x > d #重複消去
 
 
-javac NETClassBenchToAdjacencyList.java
 case "$#" in
     "6") eval java NETClassBenchToAdjacencyList x c '$'{$ruleName} $1
 	 ;;
@@ -118,7 +115,8 @@ case "$#" in
 	  ;;
 esac
 
-#rm x
+rm x
+rm b
 rm c
 if [ ! $# == 5 ] ; then
     rm a

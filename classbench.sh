@@ -103,6 +103,7 @@ sed '/^$/d' b > e #空行消去
 eval mv e '$'{$ruleName}
 eval mv c '$'{$headerName}
 
+rm x
 rm b
 if [ ! $# == 6 ] ; then
 rm a

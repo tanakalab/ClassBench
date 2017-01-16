@@ -118,6 +118,7 @@ case "$#" in
 esac
 
 rm x
+rm b
 rm c
 rm w
 if [ ! $# == 6 ] ; then
