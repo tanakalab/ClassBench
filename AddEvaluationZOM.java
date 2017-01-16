@@ -70,7 +70,7 @@ public class AddEvaluationZOM {//0,1,*のルールに評価パケット数を付
 	int rSize = fieldRule.size();	
 	int hSize = fieldHeader.size();
 	int[] eval = new int[rSize];//評価パケット数を格納する配列
-	HashMap<String,int> map = new HashMap<String,int>(); 
+	HashMap<String,Integer> map = new HashMap<String,Integer>(); 
 	
 	List<String> rule = new ArrayList<String>();
 	List<String> header = new ArrayList<String>();

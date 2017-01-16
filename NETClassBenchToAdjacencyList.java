@@ -30,7 +30,7 @@ class Node
 	}
     }
 }   
-class RelatedRule //評価パケット数と従属関係を求めるのに共通するルールの値を格納
+class NETRelatedRule //評価パケット数と従属関係を求めるのに共通するルールの値を格納
 {
     public static int rSize;
     
@@ -66,7 +66,7 @@ class RelatedRule //評価パケット数と従属関係を求めるのに共通
 		low = (long)Math.pow(2,32-plefix1) * (long)(ten1/Math.pow(2,32-plefix1));
 		high = low + (long)Math.pow(2,32-plefix1) - 1;
 
-		RelatedRule.rField[i][0] = low + "-" + high;
+		NETRelatedRule.rField[i][0] = low + "-" + high;
 
 
 		String[] num2 = rField[i][1].split("\\.|/") ;
@@ -76,7 +76,7 @@ class RelatedRule //評価パケット数と従属関係を求めるのに共通
 		low = (long)Math.pow(2,32-plefix2) * (long)(ten2/(long)Math.pow(2,32-plefix2));
 		high = low + (long)Math.pow(2,32-plefix2) - 1;
 		
-		RelatedRule.rField[i][1] = low + "-" + high;
+		NETRelatedRule.rField[i][1] = low + "-" + high;
 		
 
 	    }	    
@@ -98,7 +98,7 @@ class RelatedRule //評価パケット数と従属関係を求めるのに共通
 		low = (long)Math.pow(2,32-plefix1) * (long)(ten1/Math.pow(2,32-plefix1));
 		high = low + (long)Math.pow(2,32-plefix1) - 1;
 
-		RelatedRule.rField[i][1] = low + "-" + high;
+		NETRelatedRule.rField[i][1] = low + "-" + high;
 
 	    }
 	}
@@ -118,7 +118,7 @@ class RelatedRule //評価パケット数と従属関係を求めるのに共通
 		low = (long)Math.pow(2,32-plefix2) * (long)(ten2/(long)Math.pow(2,32-plefix2));
 		high = low + (long)Math.pow(2,32-plefix2) - 1;
 		
-		RelatedRule.rField[i][1] = low + "-" + high;
+		NETRelatedRule.rField[i][1] = low + "-" + high;
 	    
 	    }
 	}
@@ -163,8 +163,8 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	    while((str = br2.readLine()) != null)
 		header.add(str);
 
-	    RelatedRule.setSize( rule.size() );
-	    RelatedRule.setRule(rule,args);
+	    NETRelatedRule.setSize( rule.size() );
+	    NETRelatedRule.setRule(rule,args);
 
 	    // String[] argcopy = new String[args.length-3];
 	    // System.arraycopy(args,3,argcopy,0,args.length-3);
@@ -198,21 +198,21 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 
 	int SPadjust = Arrays.asList(args).contains("SP") ? 2 : 0;
 	int DPadjust = Arrays.asList(args).contains("DP") ? 2 : 0;
-	int ruleFieldSize = RelatedRule.rField[0].length;	
-	ArrayList<String>[] dep = new ListString[RelatedRule.rSize]; //従属関係を格納する配列
+	int ruleFieldSize = NETRelatedRule.rField[0].length;	
+	ArrayList<String>[] dep = new ListString[NETRelatedRule.rSize]; //従属関係を格納する配列
 	for(int i = 0; i < dep.length; i++)
 	    dep[i] = new ListString();
 
 	switch(args.length){
 
 	case 4://フィールド数１　のルール
-	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
+	    for(int i=NETRelatedRule.rSize-1; 0<=i; i--){
 		for(int j=i-1; 0<=j; j--){
 		    
 		    switch(args[3]){
 
 		    case "SA":
-			if( includeSA(RelatedRule.rField[i][0],RelatedRule.rField[j][0]) ){
+			if( includeSA(NETRelatedRule.rField[i][0],NETRelatedRule.rField[j][0]) ){
 			    
 			    // System.out.println((i+1) +" "+ (j+1));
 			    
@@ -221,7 +221,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 			}
 			break;
 		    case "DA":
-			if( includeDA(RelatedRule.rField[i][0],RelatedRule.rField[j][0]) ){
+			if( includeDA(NETRelatedRule.rField[i][0],NETRelatedRule.rField[j][0]) ){
 			    
 			    // System.out.println((i+1) +" "+ (j+1));
 			    
@@ -230,7 +230,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 			}
 			break;
 		    case "SP":
-			if( includeSP(RelatedRule.rField[i][0],RelatedRule.rField[i][2],RelatedRule.rField[j][0],RelatedRule.rField[j][2]) ){
+			if( includeSP(NETRelatedRule.rField[i][0],NETRelatedRule.rField[i][2],NETRelatedRule.rField[j][0],NETRelatedRule.rField[j][2]) ){
 			    
 			    // System.out.println((i+1) +" "+ (j+1));
 			    
@@ -239,7 +239,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 			}
 			break;
 		    case "DP":
-			if(includeDP(RelatedRule.rField[i][0],RelatedRule.rField[i][2],RelatedRule.rField[j][0],RelatedRule.rField[j][2]) ){
+			if(includeDP(NETRelatedRule.rField[i][0],NETRelatedRule.rField[i][2],NETRelatedRule.rField[j][0],NETRelatedRule.rField[j][2]) ){
 			    
 			    // System.out.println((i+1) +" "+ (j+1));
 			    
@@ -248,7 +248,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 			}
 			break;
 		    case "PROT":
-			if( includePROT(RelatedRule.rField[i][0],RelatedRule.rField[j][0]) ){
+			if( includePROT(NETRelatedRule.rField[i][0],NETRelatedRule.rField[j][0]) ){
 			    
 			    // System.out.println((i+1) +" "+ (j+1));
 			    
@@ -263,12 +263,12 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	    break;
 	    			
 	case 5://　フィールド数２　のルール
-	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
+	    for(int i=NETRelatedRule.rSize-1; 0<=i; i--){
 		outside: for(int j=i-1; 0<=j; j--){
 		    for(int k=4; k >= 3; k--){		
 			switch(args[k]){
 			case "SA":
-			    if( includeSA(RelatedRule.rField[i][0],RelatedRule.rField[j][0]) ){
+			    if( includeSA(NETRelatedRule.rField[i][0],NETRelatedRule.rField[j][0]) ){
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
 				    dep[i].add(String.valueOf(j+1));
@@ -279,7 +279,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;			
 			    break;
 			case "DA":
-			    if( includeDA(RelatedRule.rField[i][k-3],RelatedRule.rField[j][k-3]) ){
+			    if( includeDA(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[j][k-3]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -291,7 +291,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "SP":
-			    if( includeSP(RelatedRule.rField[i][k-3],RelatedRule.rField[i][k-1],RelatedRule.rField[j][k-3],RelatedRule.rField[j][k-1]) ){
+			    if( includeSP(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[i][k-1],NETRelatedRule.rField[j][k-3],NETRelatedRule.rField[j][k-1]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k==3){
@@ -303,7 +303,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DP":
-			    if(includeDP(RelatedRule.rField[i][k-3 + SPadjust],RelatedRule.rField[i][k-1 + SPadjust],RelatedRule.rField[j][k-3 + SPadjust],RelatedRule.rField[j][k-1 + SPadjust]) ){
+			    if(includeDP(NETRelatedRule.rField[i][k-3 + SPadjust],NETRelatedRule.rField[i][k-1 + SPadjust],NETRelatedRule.rField[j][k-3 + SPadjust],NETRelatedRule.rField[j][k-1 + SPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -315,7 +315,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "PROT":
-			    if( includePROT(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+			    if( includePROT(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -327,7 +327,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "FLAG":
-			    if( includeFLAG(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+			    if( includeFLAG(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -345,12 +345,12 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	    break;
 		
 	case 6://　評価型＋フィールド数３　のルール
-	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
+	    for(int i=NETRelatedRule.rSize-1; 0<=i; i--){
 		outside: for(int j=i-1; 0<=j; j--){
 		    for(int k=5; k >= 3; k--){			
 			switch(args[k]){
 			case "SA":
-			    if( includeSA(RelatedRule.rField[i][0],RelatedRule.rField[j][0]) ){
+			    if( includeSA(NETRelatedRule.rField[i][0],NETRelatedRule.rField[j][0]) ){
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
 				    dep[i].add(String.valueOf(j+1));
@@ -361,7 +361,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;			
 			    break;
 			case "DA":
-			    if( includeDA(RelatedRule.rField[i][k-3],RelatedRule.rField[j][k-3]) ){
+			    if( includeDA(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[j][k-3]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -373,7 +373,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "SP":
-			    if( includeSP(RelatedRule.rField[i][k-3],RelatedRule.rField[i][k-1],RelatedRule.rField[j][k-3],RelatedRule.rField[j][k-1]) ){
+			    if( includeSP(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[i][k-1],NETRelatedRule.rField[j][k-3],NETRelatedRule.rField[j][k-1]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k==3){
@@ -385,7 +385,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DP":
-			    if(includeDP(RelatedRule.rField[i][k-3 + SPadjust],RelatedRule.rField[i][k-1 + SPadjust],RelatedRule.rField[j][k-3 + SPadjust],RelatedRule.rField[j][k-1 + SPadjust]) ){
+			    if(includeDP(NETRelatedRule.rField[i][k-3 + SPadjust],NETRelatedRule.rField[i][k-1 + SPadjust],NETRelatedRule.rField[j][k-3 + SPadjust],NETRelatedRule.rField[j][k-1 + SPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -397,7 +397,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "PROT":
-			    if( includePROT(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+			    if( includePROT(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -409,7 +409,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "FLAG":
-			    if( includeFLAG(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+			    if( includeFLAG(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -429,12 +429,12 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	    break;
 		
 	case 7://　評価型＋フィールド数４　のルール
-	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
+	    for(int i=NETRelatedRule.rSize-1; 0<=i; i--){
 		outside:for(int j=i-1; 0<=j; j--){
 		    for(int k=6; k >= 3; k--){			
 			switch(args[k]){
 			case "SA":
-			    if( includeSA(RelatedRule.rField[i][0],RelatedRule.rField[j][0]) ){
+			    if( includeSA(NETRelatedRule.rField[i][0],NETRelatedRule.rField[j][0]) ){
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
 				    dep[i].add(String.valueOf(j+1));
@@ -445,7 +445,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;			
 			    break;
 			case "DA":
-			    if( includeDA(RelatedRule.rField[i][k-3],RelatedRule.rField[j][k-3]) ){
+			    if( includeDA(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[j][k-3]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -457,7 +457,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "SP":
-			    if( includeSP(RelatedRule.rField[i][k-3],RelatedRule.rField[i][k-1],RelatedRule.rField[j][k-3],RelatedRule.rField[j][k-1]) ){
+			    if( includeSP(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[i][k-1],NETRelatedRule.rField[j][k-3],NETRelatedRule.rField[j][k-1]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k==3){
@@ -469,7 +469,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DP":
-			    if(includeDP(RelatedRule.rField[i][k-3 + SPadjust],RelatedRule.rField[i][k-1 + SPadjust],RelatedRule.rField[j][k-3 + SPadjust],RelatedRule.rField[j][k-1 + SPadjust]) ){
+			    if(includeDP(NETRelatedRule.rField[i][k-3 + SPadjust],NETRelatedRule.rField[i][k-1 + SPadjust],NETRelatedRule.rField[j][k-3 + SPadjust],NETRelatedRule.rField[j][k-1 + SPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -481,7 +481,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "PROT":
-			    if( includePROT(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+			    if( includePROT(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -493,7 +493,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "FLAG":
-			    if( includeFLAG(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+			    if( includeFLAG(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -513,12 +513,12 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	    break;
 		
 	case 8://　評価型＋フィールド数５　のルール
-	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
+	    for(int i=NETRelatedRule.rSize-1; 0<=i; i--){
 		outside: for(int j=i-1; 0<=j; j--){
 		    for(int k=7; k >= 3; k--){
 			switch(args[k]){
 			case "SA":
-			    if( includeSA(RelatedRule.rField[i][0],RelatedRule.rField[j][0]) ){
+			    if( includeSA(NETRelatedRule.rField[i][0],NETRelatedRule.rField[j][0]) ){
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
 				    dep[i].add(String.valueOf(j+1));
@@ -529,7 +529,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;			
 			    break;
 			case "DA":
-			    if( includeDA(RelatedRule.rField[i][k-3],RelatedRule.rField[j][k-3]) ){
+			    if( includeDA(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[j][k-3]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -541,7 +541,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "SP":
-			    if( includeSP(RelatedRule.rField[i][k-3],RelatedRule.rField[i][k-1],RelatedRule.rField[j][k-3],RelatedRule.rField[j][k-1]) ){
+			    if( includeSP(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[i][k-1],NETRelatedRule.rField[j][k-3],NETRelatedRule.rField[j][k-1]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k==3){
@@ -553,7 +553,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DP":
-			    if(includeDP(RelatedRule.rField[i][k-3 + SPadjust],RelatedRule.rField[i][k-1 + SPadjust],RelatedRule.rField[j][k-3 + SPadjust],RelatedRule.rField[j][k-1 + SPadjust]) ){
+			    if(includeDP(NETRelatedRule.rField[i][k-3 + SPadjust],NETRelatedRule.rField[i][k-1 + SPadjust],NETRelatedRule.rField[j][k-3 + SPadjust],NETRelatedRule.rField[j][k-1 + SPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -565,7 +565,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "PROT":
-			    if( includePROT(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+			    if( includePROT(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -577,7 +577,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "FLAG":
-			    if( includeFLAG(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+			    if( includeFLAG(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -596,12 +596,12 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	    break;
 		
 	case 9://　評価型＋フィールド数６　のルール
-	    for(int i=RelatedRule.rSize-1; 0<=i; i--){
+	    for(int i=NETRelatedRule.rSize-1; 0<=i; i--){
 		outside: for(int j=i-1; 0<=j; j--){
 		    for(int k=8; k >= 3; k--){			
 			switch(args[k]){
 			case "SA":
-			    if( includeSA(RelatedRule.rField[i][0],RelatedRule.rField[j][0]) ){
+			    if( includeSA(NETRelatedRule.rField[i][0],NETRelatedRule.rField[j][0]) ){
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
 				    dep[i].add(String.valueOf(j+1));
@@ -612,7 +612,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;			
 			    break;
 			case "DA":
-			    if( includeDA(RelatedRule.rField[i][k-3],RelatedRule.rField[j][k-3]) ){
+			    if( includeDA(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[j][k-3]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -624,7 +624,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "SP":
-			    if( includeSP(RelatedRule.rField[i][k-3],RelatedRule.rField[i][k-1],RelatedRule.rField[j][k-3],RelatedRule.rField[j][k-1]) ){
+			    if( includeSP(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[i][k-1],NETRelatedRule.rField[j][k-3],NETRelatedRule.rField[j][k-1]) ){
 			    
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k==3){
@@ -636,7 +636,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DP":
-			    if(includeDP(RelatedRule.rField[i][k-3 + SPadjust],RelatedRule.rField[i][k-1 + SPadjust],RelatedRule.rField[j][k-3 + SPadjust],RelatedRule.rField[j][k-1 + SPadjust]) ){
+			    if(includeDP(NETRelatedRule.rField[i][k-3 + SPadjust],NETRelatedRule.rField[i][k-1 + SPadjust],NETRelatedRule.rField[j][k-3 + SPadjust],NETRelatedRule.rField[j][k-1 + SPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -648,7 +648,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "PROT":
-			    if( includePROT(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+			    if( includePROT(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 				
 				// System.out.println((i+1) +" "+ (j+1));
 				if(k == 3){
@@ -661,8 +661,8 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 			    break;
 			case "FLAG":
 			    // if(i==332 && j == 331)
-				//	System.out.println( includeFLAG(RelatedRule.rField[i][k-2 + SPadjust + DPadjust],RelatedRule.rField[j][k-2 + SPadjust + DPadjust])+" "+RelatedRule.rField[i][k-2 + SPadjust + DPadjust]+" "+RelatedRule.rField[j][k-2 + SPadjust + DPadjust] );
-			    if( includeFLAG(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],RelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
+				//	System.out.println( includeFLAG(NETRelatedRule.rField[i][k-2 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-2 + SPadjust + DPadjust])+" "+NETRelatedRule.rField[i][k-2 + SPadjust + DPadjust]+" "+NETRelatedRule.rField[j][k-2 + SPadjust + DPadjust] );
+			    if( includeFLAG(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],NETRelatedRule.rField[j][k-3 + SPadjust + DPadjust]) ){
 				if(k == 3){
 				    dep[i].add(String.valueOf(j+1));
 				    //   System.out.println(j+1);
@@ -763,7 +763,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	int SPadjust = Arrays.asList(args).contains("SP") ? 2 : 0;
 	int DPadjust = Arrays.asList(args).contains("DP") ? 2 : 0;
 	int hSize = header.size();	
-	int[] eval = new int[RelatedRule.rSize];//評価パケット数を格納する配列
+	int[] eval = new int[NETRelatedRule.rSize];//評価パケット数を格納する配列
 	String[] hField = header.get(0).split("\\s+|\\t+");
 	//	System.out.println(hField.length);
 	switch(args.length){
@@ -771,35 +771,35 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	case 4://　評価型＋フィールド数１　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
-		outside: for(int i=0; i < RelatedRule.rSize; i++){
+		outside: for(int i=0; i < NETRelatedRule.rSize; i++){
 		    switch(args[3]){
 
 		    case "SA":
-			if( isMatchSA(RelatedRule.rField[i][0],hField[0]) ) {			   
+			if( isMatchSA(NETRelatedRule.rField[i][0],hField[0]) ) {			   
 			    eval[i]++;
 			    break outside;
 			}
 			break;
 		    case "DA":
-			if( isMatchDA(RelatedRule.rField[i][0],hField[0]) )    {
+			if( isMatchDA(NETRelatedRule.rField[i][0],hField[0]) )    {
 			    eval[i]++;
 			    break outside;
 			}
 			break;
 		    case "SP":
-			if( isMatchSP(RelatedRule.rField[i][0],RelatedRule.rField[i][2],hField[0]) ){
+			if( isMatchSP(NETRelatedRule.rField[i][0],NETRelatedRule.rField[i][2],hField[0]) ){
 			    eval[i]++;
 			    break outside;
 			}
 			break;
 		    case "DP":
-			if( isMatchDP(RelatedRule.rField[i][0],RelatedRule.rField[i][2],hField[0]) ){			    
+			if( isMatchDP(NETRelatedRule.rField[i][0],NETRelatedRule.rField[i][2],hField[0]) ){			    
 			    eval[i]++;
 			    break outside;
 			}
 			break;
 		    case "PROT":
-			if( isMatchPROT(RelatedRule.rField[i][0],hField[0]) ){
+			if( isMatchPROT(NETRelatedRule.rField[i][0],hField[0]) ){
 			    eval[i]++;
 			    break outside;
 			}
@@ -812,11 +812,11 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	case 5://　評価型＋フィールド数２　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
-		outside: for(int i=0; i < RelatedRule.rSize; i++){
+		outside: for(int i=0; i < NETRelatedRule.rSize; i++){
 		    for(int k=4; k >= 3; k--){
 			switch(args[k]){
 			case "SA":
-			    if( isMatchSA(RelatedRule.rField[i][0],hField[0]) ) {
+			    if( isMatchSA(NETRelatedRule.rField[i][0],hField[0]) ) {
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -826,7 +826,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DA":
-			    if( isMatchDA(RelatedRule.rField[i][k-3],hField[k-3]) ){				
+			    if( isMatchDA(NETRelatedRule.rField[i][k-3],hField[k-3]) ){				
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -836,7 +836,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "SP":
-			    if( isMatchSP(RelatedRule.rField[i][k-3],RelatedRule.rField[i][k-1],hField[k-3]) ){
+			    if( isMatchSP(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[i][k-1],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -846,7 +846,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DP":
-			    if( isMatchDP(RelatedRule.rField[i][k-3 + SPadjust],RelatedRule.rField[i][k-1 + SPadjust],hField[k-3]) ){
+			    if( isMatchDP(NETRelatedRule.rField[i][k-3 + SPadjust],NETRelatedRule.rField[i][k-1 + SPadjust],hField[k-3]) ){
 				if(k == 3){				    
 				    eval[i]++;
 				    break outside;
@@ -856,7 +856,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "PROT":
-			    if( isMatchPROT(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
+			    if( isMatchPROT(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -866,8 +866,8 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "FLAG":
-			    //System.out.println( RelatedRule.rField[i][0] + " " +  RelatedRule.rField[i][1] + " " + RelatedRule.rField[i][2] + " " + RelatedRule.rField[i][k-2 + SPadjust + DPadjust] + " " + hField[k-3]);
-			    if( isMatchFLAG(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
+			    //System.out.println( NETRelatedRule.rField[i][0] + " " +  NETRelatedRule.rField[i][1] + " " + NETRelatedRule.rField[i][2] + " " + NETRelatedRule.rField[i][k-2 + SPadjust + DPadjust] + " " + hField[k-3]);
+			    if( isMatchFLAG(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -885,11 +885,11 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	case 6://　評価型＋フィールド数３　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");	    
-		outside: for(int i=0; i < RelatedRule.rSize; i++){
+		outside: for(int i=0; i < NETRelatedRule.rSize; i++){
 		    for(int k=5; k >= 3; k--){
 			switch(args[k]){
 			case "SA":
-			    if( isMatchSA(RelatedRule.rField[i][0],hField[0]) ) {
+			    if( isMatchSA(NETRelatedRule.rField[i][0],hField[0]) ) {
 				if(k == 3 ){
 				    eval[i]++;
 				    break outside;
@@ -899,7 +899,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DA":
-			    if( isMatchDA(RelatedRule.rField[i][k-3],hField[k-3]) )    {
+			    if( isMatchDA(NETRelatedRule.rField[i][k-3],hField[k-3]) )    {
 				if(k == 3 ){
 				    eval[i]++;
 				    break outside;
@@ -909,7 +909,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "SP":
-			    if( isMatchSP(RelatedRule.rField[i][k-3],RelatedRule.rField[i][k-1],hField[k-3]) ){
+			    if( isMatchSP(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[i][k-1],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -919,7 +919,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DP":
-			    if( isMatchDP(RelatedRule.rField[i][k-3 + SPadjust],RelatedRule.rField[i][k-1 + SPadjust],hField[k-3]) ){
+			    if( isMatchDP(NETRelatedRule.rField[i][k-3 + SPadjust],NETRelatedRule.rField[i][k-1 + SPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -929,7 +929,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "PROT":
-			    if( isMatchPROT(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
+			    if( isMatchPROT(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -939,7 +939,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "FLAG":			    
-			    if( isMatchFLAG(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
+			    if( isMatchFLAG(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -957,11 +957,11 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	case 7://　評価型＋フィールド数４　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
-		outside: for(int i=0; i < RelatedRule.rSize; i++){		
+		outside: for(int i=0; i < NETRelatedRule.rSize; i++){		
 		    for(int k=6; k >= 3; k--){
 			switch(args[k]){
 			case "SA":
-			    if( isMatchSA(RelatedRule.rField[i][0],hField[0]) ) {
+			    if( isMatchSA(NETRelatedRule.rField[i][0],hField[0]) ) {
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -971,7 +971,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DA":
-			    if( isMatchDA(RelatedRule.rField[i][k-3],hField[k-3]) )    {
+			    if( isMatchDA(NETRelatedRule.rField[i][k-3],hField[k-3]) )    {
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -981,7 +981,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "SP":
-			    if( isMatchSP(RelatedRule.rField[i][k-3],RelatedRule.rField[i][k-1],hField[k-3]) ){
+			    if( isMatchSP(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[i][k-1],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -991,7 +991,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DP":
-			    if( isMatchDP(RelatedRule.rField[i][k-3 + SPadjust],RelatedRule.rField[i][k-1 + SPadjust],hField[k-3]) ){
+			    if( isMatchDP(NETRelatedRule.rField[i][k-3 + SPadjust],NETRelatedRule.rField[i][k-1 + SPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -1001,7 +1001,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "PROT":
-			    if( isMatchPROT(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
+			    if( isMatchPROT(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -1011,7 +1011,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "FLAG":			    
-			    if( isMatchFLAG(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
+			    if( isMatchFLAG(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -1030,11 +1030,11 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	case 8://　評価型＋フィールド数５　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");	    
-		outside: for(int i=0; i < RelatedRule.rSize; i++){		
+		outside: for(int i=0; i < NETRelatedRule.rSize; i++){		
 		    for(int k=7; k >= 3; k--){
 			switch(args[k]){
 			case "SA":
-			    if( isMatchSA(RelatedRule.rField[i][0],hField[0]) ) {
+			    if( isMatchSA(NETRelatedRule.rField[i][0],hField[0]) ) {
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -1044,7 +1044,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DA":
-			    if( isMatchDA(RelatedRule.rField[i][k-3],hField[k-3]) )    {
+			    if( isMatchDA(NETRelatedRule.rField[i][k-3],hField[k-3]) )    {
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -1054,7 +1054,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "SP":
-			    if( isMatchSP(RelatedRule.rField[i][k-3],RelatedRule.rField[i][k-1],hField[k-3]) ){
+			    if( isMatchSP(NETRelatedRule.rField[i][k-3],NETRelatedRule.rField[i][k-1],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -1064,7 +1064,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "DP":
-			    if( isMatchDP(RelatedRule.rField[i][k-3 + SPadjust],RelatedRule.rField[i][k-1 + SPadjust],hField[k-3]) ){
+			    if( isMatchDP(NETRelatedRule.rField[i][k-3 + SPadjust],NETRelatedRule.rField[i][k-1 + SPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -1074,7 +1074,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "PROT":
-			    if( isMatchPROT(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
+			    if( isMatchPROT(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -1084,7 +1084,7 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 				continue outside;
 			    break;
 			case "FLAG":			    
-			    if( isMatchFLAG(RelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
+			    if( isMatchFLAG(NETRelatedRule.rField[i][k-3 + SPadjust + DPadjust],hField[k-3]) ){
 				if(k == 3){
 				    eval[i]++;
 				    break outside;
@@ -1103,8 +1103,8 @@ public class NETClassBenchToAdjacencyList {//ClassBench形式のルールリス�
 	case 9://　評価型＋フィールド数６　のルール
 	    for(int j=0; j < hSize; j++){
 		hField = header.get(j).split("\\s+|\\t+");
-		for(int i=0; i < RelatedRule.rSize; i++){
-		    if(isMatchSP(RelatedRule.rField[i][2],RelatedRule.rField[i][4],hField[2]) && isMatchDP(RelatedRule.rField[i][5],RelatedRule.rField[i][7],hField[3]) && isMatchPROT(RelatedRule.rField[i][8],hField[4]) && isMatchFLAG(RelatedRule.rField[i][9],hField[5]) && isMatchSA(RelatedRule.rField[i][0],hField[0]) && isMatchDA(RelatedRule.rField[i][1],hField[1])){
+		for(int i=0; i < NETRelatedRule.rSize; i++){
+		    if(isMatchSP(NETRelatedRule.rField[i][2],NETRelatedRule.rField[i][4],hField[2]) && isMatchDP(NETRelatedRule.rField[i][5],NETRelatedRule.rField[i][7],hField[3]) && isMatchPROT(NETRelatedRule.rField[i][8],hField[4]) && isMatchFLAG(NETRelatedRule.rField[i][9],hField[5]) && isMatchSA(NETRelatedRule.rField[i][0],hField[0]) && isMatchDA(NETRelatedRule.rField[i][1],hField[1])){
 
 			eval[i]++;
 			break;
