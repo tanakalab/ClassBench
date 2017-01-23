@@ -1,5 +1,8 @@
 #クラスファイルを生成したくない物をコメントアウトしてください．
 
+#1.ClassBenchで生成されたルール形式に評価型と評価パケット数を付与した物を生成する．
+javac AddEPNToClassBench.java
+
 #2.ClassBenchで生成されたルールセットとパケットをフィールドごとにポートはレンジルールでその他は0,1,＊形式で生成する．
 javac ClassBenchToRange.java
 javac ZOHeaderFromClassbench.java
