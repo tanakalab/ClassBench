@@ -113,17 +113,17 @@ esac
 
 
 case "$#" in
-    "6") eval java ZOHeaderFromClassbench c '$'{$headerName} $1
+    "6") eval java ZOHeaderFromClassBench c '$'{$headerName} $1
 	 ;;
-    "7") eval java ZOHeaderFromClassbench c '$'{$headerName} $1 $2
+    "7") eval java ZOHeaderFromClassBench c '$'{$headerName} $1 $2
 	 ;;
-    "8") eval java ZOHeaderFromClassbench c '$'{$headerName} $1 $2 $3
+    "8") eval java ZOHeaderFromClassBench c '$'{$headerName} $1 $2 $3
 	 ;;
-    "9") eval java ZOHeaderFromClassbench c '$'{$headerName} $1 $2 $3 $4
+    "9") eval java ZOHeaderFromClassBench c '$'{$headerName} $1 $2 $3 $4
 	 ;;
-    "10") eval java ZOHeaderFromClassbench c '$'{$headerName} $1 $2 $3 $4 $5
+    "10") eval java ZOHeaderFromClassBench c '$'{$headerName} $1 $2 $3 $4 $5
 	  ;;
-    "11") eval java ZOHeaderFromClassbench c '$'{$headerName} $1 $2 $3 $4 $5 $6
+    "11") eval java ZOHeaderFromClassBench c '$'{$headerName} $1 $2 $3 $4 $5 $6
 	  ;;
 esac
 
