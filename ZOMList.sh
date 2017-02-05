@@ -1,128 +1,167 @@
-ruleNum=`expr $# - 4`
-seed_file=`expr $# - 3`
-headNum=`expr $# - 2`
-ruleName=`expr $# - 1`
-headerName=$#
-
-cd db_generator
-eval ./db_generator -bc ../parameter_files/'$'$seed_file '$'$ruleNum 2 0.5 -0.1 MyFilters
-
-cd ../trace_generator
-eval ./trace_generator 1 0.1 '$'$headNum ../db_generator/MyFilters
-cd ..
-
-if [ $1 == "SA" ] ; then
-    cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1}' > x
-    cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1}' > c
+if [ $1 = "-prior" ]; then
+    if [ $2 == "SA" ] || [ $2 == "DA" ] || [ $2 == "SP" ] || [ $2 == "DP" ] || [ $2 == "PROT" ] || [ $2 == "FLAG" ]; then
+	echo "error : Specify a MostPriorRule file."
+	exit
+    fi
+    adjust=2
+else
+    adjust=0
 fi
 
-if [ $1 == "DA" ]  ; then
+MostPriorRuleFile=$2
+
+eval first='$'{`expr 1 + $adjust`}
+eval second='$'{`expr 2 + $adjust`}
+eval third='$'{`expr 3 + $adjust`}
+eval fourth='$'{`expr 4 + $adjust`}
+eval fifth='$'{`expr 5 + $adjust`}
+eval sixth='$'{`expr 6 + $adjust`}
+
+eval ruleNum='$'{`expr $# - 4`}
+eval seed_file='$'{`expr $# - 3`}
+eval headerNum='$'{`expr $# - 2`}
+eval ruleName='$'{`expr $# - 1`}
+eval headerName='$'{$#}
+defaultRule=""
+
+
+cd db_generator
+./db_generator -bc ../parameter_files/$seed_file $ruleNum 2 0.5 -0.1 MyFilters
+
+cd ../trace_generator
+./trace_generator 1 0.1 $headerNum ../db_generator/MyFilters
+cd ..
+
+if [ $first == "SA" ] ; then
+    cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1}' > x
+    cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1}' > c
+    defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
+fi
+
+if [ $first == "DA" ]  ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $2}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $2}' > c
-elif [ $2 == "DA" ] ; then
+    defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
+elif [ $second == "DA" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $2}' > y
     paste x y > z
     mv z x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $2}' > a
     paste c a > b
     mv b c
+    defaultRule="${defaultRule}\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
 fi
 
-if [ $1 == "SP" ] ; then
+if [ $first == "SP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $3}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $3}' > c
-elif [  $2 == "SP" ] || [ $3 == "SP" ] ; then
+    defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
+elif [  $second == "SP" ] || [ $third == "SP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $3}' > y
     paste x y > z
     mv z x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $3}' > a
     paste c a > b
     mv b c
+    defaultRule="${defaultRule}\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
 fi
 
-if [ $1 == "DP" ] ; then
+if [ $first == "DP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $4}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $4}' > c
-elif [ $2 == "DP" ] || [ $3 == "DP" ] || [ $4 == "DP" ] ; then
+    defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
+elif [ $second == "DP" ] || [ $third == "DP" ] || [ $fourth == "DP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $4}' > y
     paste x y > z
     mv z x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $4}' > a
     paste c a > b
     mv b c
+    defaultRule="${defaultRule}\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
 fi
 
-if [ $1 == "PROT" ] ; then
+if [ $first == "PROT" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $5}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $5}' > c
-    if [ $2 == "FLAG" ] ; then
+    defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*"
+    if [ $second == "FLAG" ] ; then
 	cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $6}' > y
 	paste x y > z
 	mv z x
 	cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $6}' > a
 	paste c a > b
 	mv b c
+	defaultRule="${defaultRule}\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
     fi 
-elif [ $2 == "PROT" ] || [ $3 == "PROT" ] || [ $4 == "PROT" ] || [ $5 == "PROT" ] ; then
+elif [ $second == "PROT" ] || [ $third == "PROT" ] || [ $fourth == "PROT" ] || [ $fifth == "PROT" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $5}' > y
     paste x y > z
     mv z x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $5}' > a
     paste c a > b
     mv b c
-    if [ $3 == "FLAG" ] || [ $4 == "FLAG" ] || [ $5 == "FLAG" ] || [ $6 == "FLAG" ] ; then
+    defaultRule="${defaultRule}\*\*\*\*\*\*\*\*"
+    if [ $third == "FLAG" ] || [ $fourth == "FLAG" ] || [ $fifth == "FLAG" ] || [ $sixth == "FLAG" ] ; then
 	cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $6}' > y
 	paste x y > z
 	mv z x
 	cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $6}' > a
 	paste c a > b
 	mv b c
+	defaultRule="${defaultRule}\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
     fi    
-elif [ $1 == "FLAG" ] || [ $2 == "FLAG" ] || [ $3 == "FLAG" ] || [ $4 == "FLAG" ] || [ $5 == "FLAG" ] ; then
+elif [ $first == "FLAG" ] || [ $second == "FLAG" ] || [ $third == "FLAG" ] || [ $fourth == "FLAG" ] || [ $fifth == "FLAG" ] ; then
     echo "error : FLAG needs PROT argument."
     exit
 fi
 
 
-case "$#" in
-    "6") eval java ClassBenchToZOM x zomf $1
+case `expr $# - $adjust` in
+    6) java ClassBenchToZOM x zomf $first
 	 ;;
-    "7") eval java ClassBenchToZOM x zomf $1 $2
+    7) java ClassBenchToZOM x zomf $first $second
 	 ;;
-    "8") eval java ClassBenchToZOM x zomf $1 $2 $3
+    8) java ClassBenchToZOM x zomf $first $second $third
 	 ;;
-    "9") eval java ClassBenchToZOM x zomf $1 $2 $3 $4
+    9) java ClassBenchToZOM x zomf $first $second $third $fourth
 	 ;;
-    "10") eval java ClassBenchToZOM x zomf $1 $2 $3 $4 $5
+    10) java ClassBenchToZOM x zomf $first $second $third $fourth $fifth
 	  ;;
-    "11") eval java ClassBenchToZOM x zomf $1 $2 $3 $4 $5 $6
+    11) java ClassBenchToZOM x zomf $first $second $third $fourth $fifth $sixth
           ;;
 esac
 
-case "$#" in
-    "6") eval java ZOHeaderFromClassBench c zof $1
+case `expr $# - $adjust` in
+    6) java ZOHeaderFromClassBench c zof $first
 	 ;;
-    "7") eval java ZOHeaderFromClassBench c zof $1 $2
+    7) java ZOHeaderFromClassBench c zof $first $second
 	 ;;
-    "8") eval java ZOHeaderFromClassBench c zof $1 $2 $3
+    8) java ZOHeaderFromClassBench c zof $first $second $third
 	 ;;
-    "9") eval java ZOHeaderFromClassBench c zof $1 $2 $3 $4
+    9) java ZOHeaderFromClassBench c zof $first $second $third $fourth
 	 ;;
-    "10") eval java ZOHeaderFromClassBench c zof $1 $2 $3 $4 $5
+    10) java ZOHeaderFromClassBench c zof $first $second $third $fourth $fifth
 	  ;;
-    "11") eval java ZOHeaderFromClassBench c zof $1 $2 $3 $4 $5 $6
+    11) java ZOHeaderFromClassBench c zof $first $second $third $fourth $fifth $sixth
 	  ;;
 esac
 
 tr -d ' ' < zomf > x
 tr -d ' ' < zof > c
 
-eval mv x '$'{$ruleName}
-eval mv c '$'{$headerName}
+#echo " \"$defaultRule//g\" "
+sed -e "$defaultRule//g" < x > zomf #デフォルトルール消去
+sed '/^$/d' zomf > x #空行消去
+#awk '!Overlap[$0]++' x > d #重複消去
+
+java makeZOMFieldMostPriorRule x c $MostPriorRuleFile
+
+mv x $ruleName
+mv c $headerName
 
 rm zomf
 rm zof
-if [ ! $# == 6 ] ; then
+if [ ! `expr $# - $adjust` == 6 ] ; then
     rm a
     rm y
 fi

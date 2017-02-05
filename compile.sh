@@ -23,3 +23,8 @@ javac AddEtype.java
 javac AddEtype.java
 javac ClassBenchToAdjacencyList.java
 javac NETClassBenchToAdjacencyList.java
+
+
+## 各ヘッダの最優先ルールファイル生成
+javac makeZOMFieldMostPriorRule.java
+javac makeZOMRangeMostPriorRule.java
