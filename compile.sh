@@ -9,9 +9,6 @@ javac ZORangeHeaderFromClassBench.java
 
 #4.ClassBenchで生成されたルールセットとパケットをフィールドごとに0,1,＊形式で生成する．
 #5.ClassBenchで生成されたルールリストとパケットを0,1,＊形式で生成する．
-javac ClassBenchToZOM.java
-javac ZOHeaderFromClassBench.java
-
 #6.ClassBenchで生成されたルールセットとパケットをフィールドごとに0,1,＊形式で評価パケット数と評価型を付与して生成する.
 #7.ClassBenchで生成されたルールセットとパケットを0,1,＊形式で評価パケット数と評価型を付与して生成する．
 javac ClassBenchToZOM.java
@@ -20,7 +17,7 @@ javac AddEvaluationZOM.java
 javac AddEtype.java
 
 #8.ClassBenchで生成されたルールセットとパケットを用いた隣接リスト形式で生成する．
-javac AddEtype.java
+#javac AddEtype.java
 javac ClassBenchToAdjacencyList.java
 javac NETClassBenchToAdjacencyList.java
 
