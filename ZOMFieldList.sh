@@ -152,7 +152,9 @@ sed -e "$defaultRule//g" < d > c #デフォルトルール消去
 sed '/^$/d' c > x #空行消去
 #awk '!Overlap[$0]++' x > d #重複消去
 
+if [ $adjust == 2 ];then
 java makeZOMFieldMostPriorRule x $headerName $MostPriorRuleFile
+fi
 
 mv x $ruleName
 

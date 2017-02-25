@@ -130,17 +130,17 @@ case `expr $# - $adjust` in
 esac
 
 case `expr $# - $adjust` in
-    6) java ZORangeHeaderFromClassBench c $headerName $first
+    6) java ZOHeaderFromClassBench c $headerName $first
 	 ;;
-    7) java ZORangeHeaderFromClassBench c $headerName $first $second
+    7) java ZOHeaderFromClassBench c $headerName $first $second
 	 ;;
-    8) java ZORangeHeaderFromClassBench c $headerName $first $second $third
+    8) java ZOHeaderFromClassBench c $headerName $first $second $third
 	 ;;
-    9) java ZORangeHeaderFromClassBench c $headerName $first $second $third $fourth
+    9) java ZOHeaderFromClassBench c $headerName $first $second $third $fourth
 	 ;;
-    10) java ZORangeHeaderFromClassBench c $headerName $first $second $third $fourth $fifth
+    10) java ZOHeaderFromClassBench c $headerName $first $second $third $fourth $fifth
 	  ;;
-    11) java ZORangeHeaderFromClassBench c $headerName $first $second $third $fourth $fifth $sixth
+    11) java ZOHeaderFromClassBench c $headerName $first $second $third $fourth $fifth $sixth
 	  ;;
 esac
 
@@ -149,7 +149,9 @@ sed -e "$defaultRule//g" < d > c #デフォルトルール消去
 sed '/^$/d' c > x #空行消去
 #awk '!Overlap[$0]++' x > d #重複消去
 
+if [ $adjust == 2 ];then
 java makeZOMRangeMostPriorRule x $headerName $MostPriorRuleFile
+fi
 
 mv x $ruleName
 
