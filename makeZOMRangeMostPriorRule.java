@@ -193,21 +193,29 @@ public class makeZOMRangeMostPriorRule {//ポートのみレンジルールで�
 	
 	if(containTwoRange == 2){
 	    String[] twoRange,twoHeader,Range0,Range1;
-
+	    int Header_0,Header_1;
+	    
 	    twoRange = rule.split(" ");
 	    twoHeader = header.split(" ");
+	    Header_0 = twoToten(twoHeader[0]);
+	    Header_1 = twoToten(twoHeader[1]);
 	    Range0 = twoRange[0].split("-");
 	    Range1 = twoRange[1].split("-");
 
-	    if(Integer.parseInt(Range0[0]) <= Integer.parseInt(twoHeader[0]) && Integer.parseInt(twoHeader[0]) <= Integer.parseInt(Range0[1]) && Integer.parseInt(Range1[0]) <= Integer.parseInt(twoHeader[1]) && Integer.parseInt(twoHeader[1]) <= Integer.parseInt(Range1[1]) )
+	    //System.out.println( String.valueOf(Header_0) + " " + Range0[0] + "-" + Range0[1] + " " + String.valueOf(Header_1) + " " + Range1[0] + "-" + Range1[1] );
+	    //System.out.println( header + " : " + Header_0 +" "+ Header_1 );
+	    if(Integer.parseInt(Range0[0]) <= Header_0 && Header_0 <= Integer.parseInt(Range0[1]) && Integer.parseInt(Range1[0]) <= Header_1 && Header_1 <= Integer.parseInt(Range1[1]) )
 		return true;
 	}
 	
 	else if(containTwoRange == 1){
 	    String[] Range;
+	    int tenHeader;
 	    
 	    Range = rule.split("-");
-	    if(Integer.parseInt(Range[0]) <= Integer.parseInt(header) && Integer.parseInt(header) <= Integer.parseInt(Range[1]) )
+	    tenHeader = twoToten(header);
+	    
+	    if(Integer.parseInt(Range[0]) <= tenHeader && tenHeader <= Integer.parseInt(Range[1]) )
 		return true;
 	}
 	return false;
@@ -221,4 +229,16 @@ public class makeZOMRangeMostPriorRule {//ポートのみレンジルールで�
 	}
 	return true;
     }
+
+    static int twoToten(String RangeField){
+	
+	int portValue = 0;
+
+	for(int i = 0; i < 16; i++){
+	    if(RangeField.charAt(i) == '1')
+		portValue += Math.pow(2,(15-i));
+	}
+	return portValue;
+    }
 }
+
