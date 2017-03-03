@@ -57,8 +57,8 @@ $ sh AddEPNToClassBench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule 0.5    　
     
  ZOMRangeFieldList.shの引数として生成したいフィールド,ルール数,パラメーターファイル,パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．(-priorオプションとファイルを指定することにより，各パケットの最優先ルールのリストを指定されたファイルに出力する事ができる．)  
  例)  
-  $ sh ZOMRangeFieldList.sh SA SP DP PROT 400 fw1_seed 1 Rule Header     　　             
-  ($ sh ZOMRangeFieldList.sh -prior MostPriorRuleList SA SP DP PROT 400 fw1_seed 1 Rule Header)     
+  $ sh ZOMRangeFieldList.sh SA DA SP DP PROT FLAG 400 fw1_seed 1 Rule Header     　　             
+  ($ sh ZOMRangeFieldList.sh -prior MostPriorRuleList SA DA SP DP PROT FLAG 400 fw1_seed 1 Rule Header)     
               
     　　　  　　
     　
