@@ -70,7 +70,7 @@ public class makeZOMRangeMostPriorRule {//ポートのみレンジルールで�
 
 	    
 	    for(int i = 0; i < hSize; i++){   //結果の表示		
-		bw.write("Header["+ (i+1) +"] --> "+ header.get(i) + " ===> " + String.valueOf(mostPriorRuleNum[i]+1) );
+		bw.write("Header["+ (i+1) +"] --> "+ header.get(i).replaceAll(" ","") + " ===> " + String.valueOf(mostPriorRuleNum[i]+1) );
 		bw.newLine();
 	    }
 	    
@@ -202,8 +202,6 @@ public class makeZOMRangeMostPriorRule {//ポートのみレンジルールで�
 	    Range0 = twoRange[0].split("-");
 	    Range1 = twoRange[1].split("-");
 
-	    //System.out.println( String.valueOf(Header_0) + " " + Range0[0] + "-" + Range0[1] + " " + String.valueOf(Header_1) + " " + Range1[0] + "-" + Range1[1] );
-	    //System.out.println( header + " : " + Header_0 +" "+ Header_1 );
 	    if(Integer.parseInt(Range0[0]) <= Header_0 && Header_0 <= Integer.parseInt(Range0[1]) && Integer.parseInt(Range1[0]) <= Header_1 && Header_1 <= Integer.parseInt(Range1[1]) )
 		return true;
 	}
