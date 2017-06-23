@@ -1,10 +1,14 @@
 ###############################################################################################
+#First compile Related files
+# $ javac NumberedZOM.java
+# $ javac ZOHeaderAndDistribution.java
+# $ javac GeneralAdjacencyList.java
 
 # input form is
 # sh DistributionList.sh [fields that you wanna make] RuleNumber seed_file packetNumber(scale factor) RuleFileName HeaderFileName AdjacencyListFileName EvaluationProbability
 
 # input example ::
-# $ sh DistributionList.sh SA DA SP DP PROT FLAG 500 ipc1_seed 1 Rule Header Adjacency probability
+# $ sh DistributionList.sh SA DA SP DP PROT FLAG 500 ipc1_seed 1 Rule Header Adjacency 0.5
 
 ################################################################################################
 
