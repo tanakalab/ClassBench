@@ -14,17 +14,33 @@ class Node
     @Override
     public String toString(){
 
-	String str;
-	str = "[" + eval + ",[";
-	for(int i = dep.size()-1;0 <= i; i--){
-	    str += dep.get(i);
-	    if(i == 0)		    
-		break;	       
-	    str += ",";
-	}		    
-	return str + "]]";
+	if(dep.isEmpty())
+	    return String.valueOf(eval);
+
+	else{
+	    String str;
+	    str = eval + " ";
+	    for(int i = dep.size()-1;0 <= i; i--){
+		str += dep.get(i);
+		if(i == 0)		    
+		    break;	       
+		str += ",";
+	    }		    
+	    return str;
+	}
+	
+    // 	String str;
+    // 	str = "[" + eval + ",[";
+    // 	for(int i = dep.size()-1;0 <= i; i--){
+    // 	    str += dep.get(i);
+    // 	    if(i == 0)		    
+    // 		break;	       
+    // 	    str += ",";
+    // 	}		    
+    // 	return str + "]]";
     }
 }
+
 class RelatedRule //評価パケット数と従属関係を求めるのに共通するルールの値を格納
 {
     public static int rSize;
@@ -177,8 +193,8 @@ public class GeneralAdjacencyList {//ClassBench形式のルールリストを評
 
 	    for(int i = 0; i < AList.size(); i++){ //結果の表示
 	    	bw.write( AList.get(i).toString() );
-		if(i != AList.size()-1)
-		    bw.write(",");
+		// if(i != AList.size()-1)
+		//     bw.write(",");
 	    	bw.newLine();
 	    }
 	        
