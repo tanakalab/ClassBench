@@ -83,7 +83,10 @@ $ sh AddEPNToClassBench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule 0.5    　
 パケット : 100111111100011111011110000010010000000000000000000001011111010100000110  
      
  ZOMList.shの引数として生成したいフィールド,ルール数,パラメーターファイル,パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．(-priorオプションとファイルを指定することにより，各パケットの最優先ルールのリストを指定されたファイルに出力する事ができる．)      
- 例)   
+
+
+
+例)   
   $ sh ZOMList.sh DA SP DP PROT 500 ipc1_seed 1 Rule Header                  
   ($ sh ZOMList.sh -prior MostPriorRuleList DA SP DP PROT 500 ipc1_seed 1 Rule Header)     　　　  　　　
            
@@ -130,7 +133,28 @@ $ sh AdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule 0.5
   
  例）  
 $ sh NETAdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule
+      
+      
+      
+9.ClassBenchで生成されたルールセットをルール番号と0,1,＊形式で，さらに隣接リスト形式で生成し，パケットをパケットの個数と0,1,＊形式で生成する．
+例）  
+<p>ルール   : 3 00000010100001010000011101111***10101110001100111010101*************************</p>    
+パケット : 00100101010100100111110000100001100111111100011111011110000010010000000000000000　2    
+隣接リスト :   
+1    
+0   
+0   
+3　4   
   
+   
+DistributionList.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(1以上の整数),ルールファイル名,パケットファイル名，隣接リストファイル名，評価型(Accept)の割合を入力することで生成される．   
+例）    
+$ sh DistributionList.sh SA DA SP DP PROT FLAG 500 ipc1_seed 1 Rule Header Adjacency 0.5    
+
+  
+  
+   
+
 ※パラメーターファイル  
 (acl1_seed　acl2_seed　acl3_seed　acl4_seed　acl5_seed　fw1_seed　fw2_seed　fw3_seed　fw4_seed　fw5_seed　ipc1_seed　ipc2_seed)  
 
