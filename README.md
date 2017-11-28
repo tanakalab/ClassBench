@@ -42,8 +42,8 @@ $ sh classbench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule Header       　
 ルール   : Accept　@131.10.42.40/32　95.184.130.35/32　0 : 65535　1724 : 1724　0x06/0xFF　0x1000/0x1000　4   
 　  
 AddEPNToClassBench.shの引数として生成したいフィールド,ルール数,パラメーターファイル,パケット数(１以上の整数),ルールファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
- 例)  
-$ sh AddEPNToClassBench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule 0.5    　
+ 例）  
+$ sh AddEPNToClassBench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule 0.5       　
    　　
    　　　
    　　
@@ -51,13 +51,13 @@ $ sh AddEPNToClassBench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule 0.5    　
     　　
 　　　　    　　
 3. ClassBenchで生成されたルールセットとパケットをフィールドごとにポートはレンジルールでその他は0,1,＊形式で生成する．  
-例)                               
+例）   
 <p>ルール   : 0110010011011111011111**********　0-65535　61900-61909　00000110</p>  
 パケット : 01100100110111110111111101100001　1111111111111111　1111000111001100　61900　00000110    
     
  ZOMRangeFieldList.shの引数として生成したいフィールド,ルール数,パラメーターファイル,パケット数(１以上の整数),ルールファイル名,パケットファイル名を入力し実行することで生成される．(-priorオプションとファイルを指定することにより，各パケットの最優先ルールのリストを指定されたファイルに出力する事ができる．)  
- 例)  
-  $ sh ZOMRangeFieldList.sh SA DA SP DP PROT FLAG 400 fw1_seed 1 Rule Header     　　             
+ 例）  
+  $ sh ZOMRangeFieldList.sh SA DA SP DP PROT FLAG 400 fw1_seed 1 Rule Header     　　             
   ($ sh ZOMRangeFieldList.sh -prior MostPriorRuleList SA DA SP DP PROT FLAG 400 fw1_seed 1 Rule Header)     
     
     
@@ -100,8 +100,8 @@ $ sh AddEPNToClassBench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule 0.5    　
 パケット : 00100101010100100111110000100001　10011111110001111101111000001001　0000000000000000     
   
  EvalZOMFieldList.shの引数として生成したいフィールド,ルール数,パラメーターファイル,パケット数(１以上の整数),ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
- 例)  
-$ sh EvalZOMFieldList.sh SA DA SP 1000 fw3_seed 2 Rule Header 0.7      
+ 例）  
+$ sh EvalZOMFieldList.sh SA DA SP 1000 fw3_seed 2 Rule Header 0.7       
   
   
   
@@ -115,10 +115,9 @@ $ sh EvalZOMFieldList.sh SA DA SP 1000 fw3_seed 2 Rule Header 0.7
 パケット : 00100101010100100111110000100001100111111100011111011110000010010000000000000000    
   
  EvalZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル,パケット数(１以上の整数),ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
- 例)                     
+ 例）  
 $ sh EvalZOMList.sh SA DA DP 100 fw5_seed 1 Rule Header 0.3  
-  
-　　　　　　　
+ 　　　　　　　
     　　　　　　　
     　　　　　　　
     　　　　　　　　
@@ -141,21 +140,21 @@ $ sh NETAdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule
       
       
       
-9.ClassBenchで生成されたルールセットをルール番号と0,1,＊形式で，さらに隣接リスト形式で生成し，パケットをパケットの個数と0,1,＊形式で生成する．
+9.ClassBenchで生成されたルールセットをルール番号と0,1,＊形式で，さらに隣接リスト形式で生成し，パケットをパケットの個数と0,1,＊形式で生成する．  
 例）  
-<p>ルール   : 3 00000010100001010000011101111***10101110001100111010101*************************</p>    
-パケット : 00100101010100100111110000100001100111111100011111011110000010010000000000000000　2      
-  
-隣接リスト :   
-1    
-0   
-0   
-3　4   
-  
+<p>ルール   : 3 00000010100001010000011101111***10101110001100111010101*************************</p>    
+パケット : 00100101010100100111110000100001100111111100011111011110000010010000000000000000　2  
+隣接リスト :  
+1  
+0  
+0  
+3　4  
+
+
    
-DistributionList.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(1以上の整数),ルールファイル名,パケットファイル名，隣接リストファイル名，評価型(Accept)の割合を入力することで生成される．   
-例）    
-$ sh DistributionList.sh SA DA SP DP PROT FLAG 500 ipc1_seed 1 Rule Header Adjacency 0.5    
+DistributionList.shの引数として生成したいフィールド,ルール数,パラメーターファイル、パケット数(1以上の整数),ルールファイル名,パケットファイル名，隣接リストファイル名，評価型(Accept)の割合を入力することで生成される.  
+例）  
+$ sh DistributionList.sh SA DA SP DP PROT FLAG 500 ipc1_seed 1 Rule Header Adjacency 0.5     
 
   
   
