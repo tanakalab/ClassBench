@@ -59,11 +59,10 @@ $ sh AddEPNToClassBench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule 0.5    　
  例)  
   $ sh ZOMRangeFieldList.sh SA DA SP DP PROT FLAG 400 fw1_seed 1 Rule Header     　　             
   ($ sh ZOMRangeFieldList.sh -prior MostPriorRuleList SA DA SP DP PROT FLAG 400 fw1_seed 1 Rule Header)     
-              
-    　　　  　　
-    　
-     
-     
+    
+    
+    
+    
 4. ClassBenchで生成されたルールセットとパケットをフィールドごとに0,1,＊形式で生成する．       
 例)                          
 <p>ルール   : 0010010101010010011111000011011*　10011111110001111111001111110001　****************</p>     
@@ -102,11 +101,13 @@ $ sh AddEPNToClassBench.sh SA DA SP DP PROT FLAG 300 acl5_seed 2 Rule 0.5    　
   
  EvalZOMFieldList.shの引数として生成したいフィールド,ルール数,パラメーターファイル,パケット数(１以上の整数),ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
  例)  
-$ sh EvalZOMFieldList.sh SA DA SP 1000 fw3_seed 2 Rule Header 0.7      　　　　　　
-　　　　　　　　
-    　　　　　　
-     　　　　　　　
-    　　　　　　　　
+$ sh EvalZOMFieldList.sh SA DA SP 1000 fw3_seed 2 Rule Header 0.7      
+  
+  
+  
+  
+  
+  
 7. ClassBenchで生成されたルールセットとパケットを0,1,＊形式で評価パケット数と評価型を付与して生成する．   
  (ルールの末尾のフィールドは評価パケット数)    
 例）                   
@@ -115,11 +116,14 @@ $ sh EvalZOMFieldList.sh SA DA SP 1000 fw3_seed 2 Rule Header 0.7      　　　
   
  EvalZOMList.shの引数としてルール数,フィールド数(1 ≦ n ≦ 6),パラメーターファイル,パケット数(１以上の整数),ルールファイル名,パケットファイル名,評価型(Accept)の割合を入力し実行することで生成される．  
  例)                     
-$ sh EvalZOMList.sh SA DA DP 100 fw5_seed 1 Rule Header 0.3     　　　　　　
+$ sh EvalZOMList.sh SA DA DP 100 fw5_seed 1 Rule Header 0.3  
+  
 　　　　　　　
     　　　　　　　
     　　　　　　　
     　　　　　　　　
+                
+                 
 8. ClassBenchで生成されたルールセットとパケットを用いた隣接リスト形式で生成する．    
 例）  
 1    
@@ -132,14 +136,16 @@ $ sh EvalZOMList.sh SA DA DP 100 fw5_seed 1 Rule Header 0.3     　　　　　�
 $ sh AdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule 0.5   
   
  例）  
-$ sh NETAdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule
+$ sh NETAdjacencyList.sh SA DA SP DP PROT FLAG 100 acl1_seed 1 Rule    
+   
       
       
       
 9.ClassBenchで生成されたルールセットをルール番号と0,1,＊形式で，さらに隣接リスト形式で生成し，パケットをパケットの個数と0,1,＊形式で生成する．
 例）  
 <p>ルール   : 3 00000010100001010000011101111***10101110001100111010101*************************</p>    
-パケット : 00100101010100100111110000100001100111111100011111011110000010010000000000000000　2    
+パケット : 00100101010100100111110000100001100111111100011111011110000010010000000000000000　2      
+  
 隣接リスト :   
 1    
 0   
