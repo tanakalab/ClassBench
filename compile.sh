@@ -21,6 +21,10 @@ javac AddEtype.java
 javac ClassBenchToAdjacencyList.java
 javac NETClassBenchToAdjacencyList.java
 
+#9.ClassBenchで生成されたルールセットをルール番号と0,1,＊形式で，さらに隣接リスト形式で生成し，パケットをパケットの個数と0,1,＊形式で生成する．
+javac ZOHeaderAndDistribution.java
+javac GeneralAdjacencyList.java
+javac NumberedZOM.java
 
 ## 各ヘッダの最優先ルールファイル生成
 javac makeZOMFieldMostPriorRule.java

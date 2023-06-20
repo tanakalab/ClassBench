@@ -1,5 +1,7 @@
+# if [ $1 == "-prior" ]; then
 if [ $1 = "-prior" ]; then
-    if [ $2 == "SA" ] || [ $2 == "DA" ] || [ $2 == "SP" ] || [ $2 == "DP" ] || [ $2 == "PROT" ] || [ $2 == "FLAG" ]; then
+    # if [ $2 == "SA" ] || [ $2 == "DA" ] || [ $2 == "SP" ] || [ $2 == "DP" ] || [ $2 == "PROT" ] || [ $2 == "FLAG" ]; then
+    if [ $2 = "SA" ] || [ $2 = "DA" ] || [ $2 = "SP" ] || [ $2 = "DP" ] || [ $2 = "PROT" ] || [ $2 = "FLAG" ]; then
 	echo "error : Specify a MostPriorRule file."
 	exit
     fi
@@ -31,17 +33,20 @@ cd ../trace_generator
 ./trace_generator 1 0.1 $headerNum ../db_generator/MyFilters
 cd ..
 
-if [ $first == "SA" ] ; then
+# if [ $first == "SA" ] ; then
+if [ $first = "SA" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $1}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $1}' > c
     defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
 fi
 
-if [ $first == "DA" ]  ; then
+# if [ $first == "DA" ]  ; then
+if [ $first = "DA" ]  ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $2}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $2}' > c
     defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
-elif [ $second == "DA" ] ; then
+# elif [ $second == "DA" ] ; then
+elif [ $second = "DA" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $2}' > y
     paste x y > z
     mv z x
@@ -51,11 +56,13 @@ elif [ $second == "DA" ] ; then
     defaultRule="${defaultRule} \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
 fi
 
-if [ $first == "SP" ] ; then
+# if [ $first == "SP" ] ; then
+if [ $first = "SP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $3}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $3}' > c
     defaultRule="${defaultRule}s/0-65535"
-elif [  $second == "SP" ] || [ $third == "SP" ] ; then
+# elif [  $second == "SP" ] || [ $third == "SP" ] ; then
+elif [  $second = "SP" ] || [ $third = "SP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $3}' > y
     paste x y > z
     mv z x
@@ -65,11 +72,13 @@ elif [  $second == "SP" ] || [ $third == "SP" ] ; then
     defaultRule="${defaultRule} 0-65535"
 fi
 
-if [ $first == "DP" ] ; then
+# if [ $first == "DP" ] ; then
+if [ $first = "DP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $4}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $4}' > c
     defaultRule="${defaultRule}s/0-65535"
-elif [ $second == "DP" ] || [ $third == "DP" ] || [ $fourth == "DP" ] ; then
+# elif [ $second == "DP" ] || [ $third == "DP" ] || [ $fourth == "DP" ] ; then
+elif [ $second = "DP" ] || [ $third = "DP" ] || [ $fourth = "DP" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $4}' > y
     paste x y > z
     mv z x
@@ -79,11 +88,13 @@ elif [ $second == "DP" ] || [ $third == "DP" ] || [ $fourth == "DP" ] ; then
     defaultRule="${defaultRule} 0-65535"
 fi
 
-if [ $first == "PROT" ] ; then
+# if [ $first == "PROT" ] ; then
+if [ $first = "PROT" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $5}' > x
     cat db_generator/MyFilters_trace | awk 'BEGIN{OFS="\t"} {print $5}' > c
     defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*"
-    if [ $second == "FLAG" ] ; then
+    # if [ $second == "FLAG" ] ; then
+    if [ $second = "FLAG" ] ; then
 	cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $6}' > y
 	paste x y > z
 	mv z x
@@ -92,7 +103,8 @@ if [ $first == "PROT" ] ; then
 	mv b c
 	defaultRule="${defaultRule} \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
     fi 
-elif [ $second == "PROT" ] || [ $third == "PROT" ] || [ $fourth == "PROT" ] || [ $fifth == "PROT" ] ; then
+# elif [ $second == "PROT" ] || [ $third == "PROT" ] || [ $fourth == "PROT" ] || [ $fifth == "PROT" ] ; then
+elif [ $second = "PROT" ] || [ $third = "PROT" ] || [ $fourth = "PROT" ] || [ $fifth = "PROT" ] ; then
     cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $5}' > y
     paste x y > z
     mv z x
@@ -100,7 +112,8 @@ elif [ $second == "PROT" ] || [ $third == "PROT" ] || [ $fourth == "PROT" ] || [
     paste c a > b
     mv b c
     defaultRule="${defaultRule} \*\*\*\*\*\*\*\*"
-    if [ $third == "FLAG" ] || [ $fourth == "FLAG" ] || [ $fifth == "FLAG" ] || [ $sixth == "FLAG" ] ; then
+    # if [ $third == "FLAG" ] || [ $fourth == "FLAG" ] || [ $fifth == "FLAG" ] || [ $sixth == "FLAG" ] ; then
+    if [ $third = "FLAG" ] || [ $fourth = "FLAG" ] || [ $fifth = "FLAG" ] || [ $sixth = "FLAG" ] ; then
 	cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $6}' > y
 	paste x y > z
 	mv z x
@@ -109,7 +122,8 @@ elif [ $second == "PROT" ] || [ $third == "PROT" ] || [ $fourth == "PROT" ] || [
 	mv b c
 	defaultRule="${defaultRule} \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*"
     fi    
-elif [ $first == "FLAG" ] || [ $second == "FLAG" ] || [ $third == "FLAG" ] || [ $fourth == "FLAG" ] || [ $fifth == "FLAG" ] ; then
+# elif [ $first == "FLAG" ] || [ $second == "FLAG" ] || [ $third == "FLAG" ] || [ $fourth == "FLAG" ] || [ $fifth == "FLAG" ] ; then
+elif [ $first = "FLAG" ] || [ $second = "FLAG" ] || [ $third = "FLAG" ] || [ $fourth = "FLAG" ] || [ $fifth = "FLAG" ] ; then
     echo "error : FLAG needs PROT argument."
     exit
 fi
@@ -149,7 +163,8 @@ sed -e "$defaultRule//g" < d > c #デフォルトルール消去
 sed '/^$/d' c > x #空行消去
 #awk '!Overlap[$0]++' x > d #重複消去
 
-if [ $adjust == 2 ];then
+# if [ $adjust == 2 ];then
+if [ $adjust = 2 ];then
 java makeZOMRangeMostPriorRule x $headerName $MostPriorRuleFile
 fi
 
@@ -157,7 +172,8 @@ mv x $ruleName
 
 rm c
 rm d
-if [ ! `expr $# - $adjust` == 6 ] ; then
+# if [ ! `expr $# - $adjust` == 6 ] ; then
+if [ ! `expr $# - $adjust` = 6 ] ; then
     rm a
     rm y
 fi

@@ -7,7 +7,8 @@ m=$3
 # m is a number of rules in a rulelist
 n=$1
 echo $((m+=1))
-if [ $# == 3 ]
+# if [ $# == 3 ]
+if [ $# = 3 ]
 then
     sh ZOMRangeFieldList.sh $n 6 acl2_seed $2 acl_${n}_1 header_acl
     i=2

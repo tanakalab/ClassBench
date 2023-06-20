@@ -1,12 +1,14 @@
 import java.io.*;
 import java.util.*;
 
-class Node
+// class Node
+class NodeClassBenchToAdjacencyList
 {
     int eval;
     List<String> dep;
 
-    Node(int e,List<String> d){
+    // Node(int e,List<String> d){
+    NodeClassBenchToAdjacencyList(int e,List<String> d){
 	eval = e;
 	dep = d;
     }
@@ -173,14 +175,17 @@ public class ClassBenchToAdjacencyList {//ClassBench形式のルールリスト�
 	    int[] eval = makeEvaluation(header,args);
 	    List<String>[] dep = makeDependence(args);
 
-	    ArrayList<Node> AList = new ArrayList<Node>();
+	    // ArrayList<Node> AList = new ArrayList<Node>();
+	    ArrayList<NodeClassBenchToAdjacencyList> AList = new ArrayList<NodeClassBenchToAdjacencyList>();
 
 	    for(int i = 0; i < eval.length; i++){
-		Node node = new Node(eval[i],dep[i]);
+		// Node node = new Node(eval[i],dep[i]);
+		NodeClassBenchToAdjacencyList node = new NodeClassBenchToAdjacencyList(eval[i],dep[i]);
 		AList.add(node);
 	    }
 
-	    for(Node n : AList){ //結果の表示
+	    // for(Node n : AList){ //結果の表示
+	    for(NodeClassBenchToAdjacencyList n : AList){ //結果の表示
 	    	bw.write( n.toString() );
 	    	bw.newLine();
 	    }

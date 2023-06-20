@@ -1,12 +1,14 @@
 import java.io.*;
 import java.util.*;
 
-class Node
+// class Node
+class NodeAddEPNToClassBench
 {
     String rule;    
     int eval;
 
-    Node(String r,int e){
+    // Node(String r,int e){
+    NodeAddEPNToClassBench(String r,int e){
 	rule = r;
 	eval = e;
     }
@@ -159,14 +161,17 @@ public class AddEPNToClassBench {//ClassBenchに評価パケット数と従属�
 	    
 	    int[] eval = makeEvaluation(header,args);
 
-	    ArrayList<Node> AList = new ArrayList<Node>();
+	    // ArrayList<Node> AList = new ArrayList<Node>();
+	    ArrayList<NodeAddEPNToClassBench> AList = new ArrayList<NodeAddEPNToClassBench>();
 
 	    for(int i = 0; i < eval.length; i++){
-		Node node = new Node(rule.get(i),eval[i]);
+		// Node node = new Node(rule.get(i),eval[i]);
+		NodeAddEPNToClassBench node = new NodeAddEPNToClassBench(rule.get(i),eval[i]);
 		AList.add(node);
 	    }
 
-	    for(Node n : AList){ //結果の表示
+	    // for(Node n : AList){ //結果の表示
+	    for(NodeAddEPNToClassBench n : AList){ //結果の表示
 	    	bw.write( n.toString() );
 	    	bw.newLine();
 	    }

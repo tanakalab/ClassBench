@@ -1,12 +1,14 @@
 import java.io.*;
 import java.util.*;
 
-class Node
+// class Node
+class NodeGeneralAdjacencyList
 {
     int eval;
     List<String> dep;
 
-    Node(int e,List<String> d){
+    // Node(int e,List<String> d){
+    NodeGeneralAdjacencyList(int e,List<String> d){
 	eval = e;
 	dep = d;
     }
@@ -184,10 +186,12 @@ public class GeneralAdjacencyList {//ClassBench形式のルールリストを評
 	    //int[] eval = makeEvaluation(header,args);
 	    List<String>[] dep = makeDependence(args);
 
-	    ArrayList<Node> AList = new ArrayList<Node>();
+	    // ArrayList<Node> AList = new ArrayList<Node>();
+	    ArrayList<NodeGeneralAdjacencyList> AList = new ArrayList<NodeGeneralAdjacencyList>();
 
 	    for(int i = 0; i < rule.size(); i++){
-		Node node = new Node(i+1,dep[i]);
+		// Node node = new Node(i+1,dep[i]);
+		NodeGeneralAdjacencyList node = new NodeGeneralAdjacencyList(i+1,dep[i]);
 		AList.add(node);
 	    }
 
