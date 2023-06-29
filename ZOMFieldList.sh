@@ -96,8 +96,6 @@ if [ $first = "PROT" ] ; then
     defaultRule="${defaultRule}s/\*\*\*\*\*\*\*\*"
     # if [ $second == "FLAG" ] ; then
     if [ $second = "FLAG" ] ; then
-# if [ $first == "PROT" ] ; then
-if [ $first = "PROT" ] ; then
 	cat db_generator/MyFilters | awk -F'\t' 'BEGIN{OFS="\t"} {print $6}' > y
 	paste x y > z
 	mv z x
