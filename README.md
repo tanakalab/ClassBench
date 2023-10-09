@@ -2,7 +2,6 @@
 
 ClassBench 
 
-<!-- http://www.arl.wustl.edu/classbench/ -->
 https://www.arl.wustl.edu/classbench/
 
 で生成したルールを各提案手法の形式のルールリストとヘッダリストへ変換するプログラム群  
@@ -10,17 +9,15 @@ ClassBenchから下記の1~7の形式の中の一つを生成することがで�
 
 ## Usage   
 
-git clone git@github.com:tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
-<!-- 作成されたディレクトリに移動しdownloads.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.    --> 
+git clone https://github.com/tanakalab/ClassBench.gitを実行することで,カレントディレクトリにClassbenchというディレクトリが作成される.  
 作成されたディレクトリに移動しsetup.shを実行することで,db_generatorとtrace_generatorを使う準備が整う.     
 compile.shによってそれぞれのプログラムをコンパイルをする．  
 そして後は自分の生成したいルールセットに合わせて下記の1~7のどれかのスクリプトを実行する．  
 
 コマンド  
 
-$ git clone git@github.com:tanakalab/ClassBench.git  
+$ git clone https://github.com/tanakalab/ClassBench.git
 $ cd ClassBench    
-<!-- $ sh downloads.sh   -->
 $ sh setup.sh  
 $ sh compile.sh  
     
